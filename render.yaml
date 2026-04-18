@@ -1,6 +1,7 @@
 services:
   - type: web
     name: tripflow-pwa-beta
+    plan: free
     env: docker
     healthCheckPath: /api/health
     autoDeploy: true
