@@ -40,6 +40,22 @@ function sendRedirect(res, location, status = 302) {
   res.end();
 }
 
+function sendHtml(res, status, html) {
+  res.writeHead(status, {
+    "Content-Type": "text/html; charset=utf-8",
+    "Content-Length": Buffer.byteLength(html)
+  });
+  res.end(html);
+}
+
+function escapeHtml(input) {
+  return String(input ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 const OUTBOUND_ALLOW_HOSTS = ["douyin.com", "www.douyin.com", "xiaohongshu.com", "www.xiaohongshu.com", "xhslink.com", "www.xhslink.com"];
 
 function normalizeOutboundTarget(raw) {
@@ -55,6 +71,83 @@ function normalizeOutboundTarget(raw) {
   } catch (_err) {
     return "";
   }
+}
+
+function extractXhsKeyword(targetUrl) {
+  try {
+    const u = new URL(targetUrl);
+    const byQuery =
+      u.searchParams.get("keyword") ||
+      u.searchParams.get("q") ||
+      u.searchParams.get("k") ||
+      u.searchParams.get("query") ||
+      "";
+    if (byQuery) return byQuery.trim();
+    const path = decodeURIComponent(u.pathname || "");
+    const matched = path.match(/search_result\/(.+)$/u);
+    if (matched?.[1]) return matched[1].trim();
+    return "";
+  } catch (_err) {
+    return "";
+  }
+}
+
+function renderXhsBridgePage({ keyword, target }) {
+  const safeKeyword = String(keyword || "").trim();
+  const appDeepLink = safeKeyword
+    ? `xhsdiscover://search/result?keyword=${encodeURIComponent(safeKeyword)}&source=deeplink`
+    : "xhsdiscover://search/recommend";
+  const webSearchUrl = safeKeyword
+    ? `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(safeKeyword)}`
+    : "https://www.xiaohongshu.com/explore";
+  const backupSearchUrl = safeKeyword
+    ? `https://www.bing.com/search?q=${encodeURIComponent(`site:xiaohongshu.com ${safeKeyword}`)}`
+    : "https://www.bing.com/search?q=site%3Axiaohongshu.com";
+  const directTarget = target || webSearchUrl;
+
+  return `<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>打开小红书</title>
+  <style>
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; background:#f6f7fb; color:#111827; }
+    .wrap { max-width:640px; margin:0 auto; padding:20px; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:14px; padding:16px; }
+    h1 { margin:0 0 10px; font-size:20px; }
+    p { margin:8px 0; color:#4b5563; line-height:1.6; }
+    .row { display:flex; flex-wrap:wrap; gap:10px; margin-top:14px; }
+    .btn { display:inline-block; border-radius:10px; padding:10px 14px; text-decoration:none; border:1px solid #d1d5db; color:#111827; background:#fff; }
+    .btn.primary { background:#ef4444; border-color:#ef4444; color:#fff; }
+    .kw { font-weight:700; color:#111827; }
+    .small { font-size:12px; color:#6b7280; margin-top:12px; }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <article class="card">
+      <h1>打开小红书</h1>
+      <p>关键词：<span class="kw">${escapeHtml(safeKeyword || "（未提供）")}</span></p>
+      <p>部分手机浏览器会拦截小红书网页搜索页。优先使用 App 打开更稳定。</p>
+      <div class="row">
+        <a class="btn primary" href="${escapeHtml(appDeepLink)}">在小红书 App 打开</a>
+        <a class="btn" href="${escapeHtml(directTarget)}" target="_blank" rel="noopener">尝试网页版</a>
+        <a class="btn" href="${escapeHtml(backupSearchUrl)}" target="_blank" rel="noopener">备用搜索</a>
+      </div>
+      <p class="small">如果点击 App 无反应，请先安装/登录小红书，再返回重试。</p>
+    </article>
+  </main>
+  <script>
+    (function () {
+      var app = ${JSON.stringify(appDeepLink)};
+      var opened = false;
+      document.addEventListener("visibilitychange", function () { if (document.hidden) opened = true; });
+      setTimeout(function () { if (!opened) window.location.href = app; }, 120);
+    })();
+  </script>
+</body>
+</html>`;
 }
 
 function parseBody(req) {
@@ -271,6 +364,13 @@ const routes = {
   "GET /go": withErrorGuard(async (_req, res, urlObj) => {
     const target = normalizeOutboundTarget(urlObj.searchParams.get("target"));
     if (!target) throw new Error("无效跳转地址");
+    const host = new URL(target).hostname.toLowerCase();
+    const isXhs = host === "xiaohongshu.com" || host.endsWith(".xiaohongshu.com") || host === "xhslink.com" || host.endsWith(".xhslink.com");
+    if (isXhs) {
+      const keyword = extractXhsKeyword(target);
+      sendHtml(res, 200, renderXhsBridgePage({ keyword, target }));
+      return;
+    }
     sendRedirect(res, target, 302);
   })
 };

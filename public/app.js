@@ -325,7 +325,9 @@ function renderExternalAnchor(url, label) {
   const safeUrl = normalizeExternalUrl(url);
   if (!safeUrl) return "";
   const outbound = `/go?target=${encodeURIComponent(safeUrl)}`;
-  return `<a href="${escapeHtml(outbound)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
+  const isXhs = /xiaohongshu\.com|xhslink\.com/iu.test(safeUrl);
+  const target = isXhs ? "_self" : "_blank";
+  return `<a href="${escapeHtml(outbound)}" target="${target}" rel="noopener">${escapeHtml(label)}</a>`;
 }
 
 async function api(path, options = {}) {
