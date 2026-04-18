@@ -27,6 +27,9 @@ const state = {
   step1Dirty: false,
   segmentDetailModeByKey: {},
   segmentTimeFilterByKey: {},
+  routeOrderSuggestions: [],
+  planBackups: {},
+  lastGeneratedPayload: null,
   smartJudge: {
     dispersedSpots: false,
     publicTransitSparse: false,
@@ -66,6 +69,26 @@ const COST_LABEL_MAP = {
   fuel: "租车油费",
   foodExtra: "特色餐饮",
   selectedHotelCost: "已选酒店"
+};
+
+const COST_USAGE_HINT_MAP = {
+  attractionCost: "景区门票与基础体验项目",
+  hotelCost: "住宿基础预算",
+  mealCost: "日常餐饮",
+  railTicket: "跨城高铁票",
+  cityTransit: "地铁/公交/打车接驳",
+  flightTicket: "跨城机票",
+  airportShuttle: "机场往返接驳",
+  energyCost: "燃油/充电费用",
+  toll: "高速通行费",
+  parking: "停车与临停",
+  rentalFee: "租车日租费用",
+  serviceFee: "平台或门店服务费",
+  insurance: "出行保障保险",
+  cityPickupFee: "异地取还车及门店费用",
+  fuel: "租车期间油费",
+  foodExtra: "特色餐饮加购",
+  selectedHotelCost: "你已手动选择的酒店预算"
 };
 
 const TIME_LABEL_MAP = {
@@ -218,6 +241,14 @@ const CLIENT_SPOT_IMAGE_MAP = {
 };
 
 const CLIENT_SPOT_IMAGE_EXTRA_MAP = {
+  外滩: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
+  陆家嘴: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
+  深圳湾: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80",
+  西湖春日慢游: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
+  海岸线日落打卡: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+  洱海环线轻自驾: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
+  北京中轴线城市漫游: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
+  成都慢节奏烟火旅行: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
   夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
   中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
   拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
@@ -324,10 +355,14 @@ function normalizeExternalUrl(rawUrl) {
 function renderExternalAnchor(url, label) {
   const safeUrl = normalizeExternalUrl(url);
   if (!safeUrl) return "";
-  const outbound = `/go?target=${encodeURIComponent(safeUrl)}`;
-  const isXhs = /xiaohongshu\.com|xhslink\.com/iu.test(safeUrl);
-  const target = isXhs ? "_self" : "_blank";
-  return `<a href="${escapeHtml(outbound)}" target="${target}" rel="noopener">${escapeHtml(label)}</a>`;
+  const isShortVideo = /xiaohongshu\.com|xhslink\.com|douyin\.com/iu.test(safeUrl);
+  if (isShortVideo) {
+    const outbound = `/go?target=${encodeURIComponent(safeUrl)}`;
+    const isXhs = /xiaohongshu\.com|xhslink\.com/iu.test(safeUrl);
+    const target = isXhs ? "_self" : "_blank";
+    return `<a href="${escapeHtml(outbound)}" target="${target}" rel="noopener">${escapeHtml(label)}</a>`;
+  }
+  return `<a href="${escapeHtml(safeUrl)}" target="_blank" rel="noopener">${escapeHtml(label)}</a>`;
 }
 
 async function api(path, options = {}) {
@@ -634,6 +669,7 @@ function shouldConfirmLeaveStep1(nextRouteKey) {
 function ensureStep1AssistUI() {
   renderCityDataList();
   renderHotCityBars();
+  renderRouteOrderHint();
   syncStep1Dates("days");
   markStep1Saved();
 }
@@ -643,6 +679,39 @@ function setLocationHint(message, isError = false) {
   if (!hint) return;
   hint.textContent = message || "";
   hint.style.color = isError ? "#cb3740" : "";
+}
+
+async function reverseGeocodeCity(latitude, longitude) {
+  const apis = [
+    async () => {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
+      const data = await res.json();
+      const addr = data.address || {};
+      return addr.city || addr.town || addr.county || addr.state || "";
+    },
+    async () => {
+      const res = await fetch(
+        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=zh`
+      );
+      const data = await res.json();
+      return data.city || data.locality || data.principalSubdivision || "";
+    },
+    async () => {
+      const res = await fetch(`https://geocode.maps.co/reverse?lat=${latitude}&lon=${longitude}`);
+      const data = await res.json();
+      const addr = data.address || {};
+      return addr.city || addr.town || addr.county || addr.state || "";
+    }
+  ];
+  for (const run of apis) {
+    try {
+      const city = String(await run()).trim();
+      if (city) return city;
+    } catch (_err) {
+      // continue fallback
+    }
+  }
+  return "";
 }
 
 function canonicalCityInput(raw) {
@@ -1446,13 +1515,25 @@ async function loadHotelStep() {
             const videoLink =
               h.videoUrl ||
               `https://www.douyin.com/search/${encodeURIComponent(`${city} ${h.name} 酒店`)}`;
+            const stars = Number(h.stars || 0);
+            const facilities = (h.facilities || []).map(escapeHtml).join("、");
             return `<article class="hotel-card ${active ? "selected" : ""}"><strong>${escapeHtml(h.name)}</strong> ｜ ${h.price} 元/晚 <span class="tag">${(h.tags || [])
               .map(escapeHtml)
-              .join(" ")}</span><p class="muted">${escapeHtml(reason)}</p><div class="row wrap"><button class="btn ${
+              .join(" ")}</span><p class="muted">${escapeHtml(reason)}</p>
+              <p class="muted">评分 ${Number.isFinite(stars) && stars ? stars.toFixed(1) : "--"} ｜ 区域 ${escapeHtml(h.district || "待补充")}</p>
+              <div class="row wrap"><button class="btn ${
               active ? "selected" : "ghost"
             }" type="button" data-hotel-city="${escapeHtml(city)}" data-hotel-name="${escapeHtml(
               h.name
-            )}" data-hotel-price="${h.price}">选择此酒店</button>${renderExternalAnchor(videoLink, "查看短视频介绍")}</div></article>`;
+            )}" data-hotel-price="${h.price}">选择此酒店</button>${renderExternalAnchor(videoLink, "查看短视频介绍")}</div>
+            <details>
+              <summary>查看酒店详情</summary>
+              <p class="muted">地址：${escapeHtml(h.address || "预订页为准")}</p>
+              <p class="muted">设施：${facilities || "待补充"}</p>
+              <p class="muted">${escapeHtml(h.detail || "建议查看预订平台确认房型与退改规则。")}</p>
+              <div class="inline-links">${renderExternalAnchor(h.mapsUrl || "", "查看地图位置")}</div>
+            </details>
+            </article>`;
           })
           .join("")}
       </article>
@@ -1565,6 +1646,7 @@ function renderPlanCompareTable(result) {
                   <span>${escapeHtml(labelCostKey(key))}</span>
                   <strong>${Number(amount).toFixed(0)} 元</strong>
                 </div>
+                <div class="cost-extra">用途：${escapeHtml(COST_USAGE_HINT_MAP[key] || "该方案下的对应预算项")}</div>
               `
                   )
                   .join("")
@@ -1585,6 +1667,9 @@ function renderPlanCompareTable(result) {
                   .join("")
               : '<p class="empty-state">该方案暂无时间分项。</p>'
           }
+          <div class="row wrap">
+            <button class="btn ghost" type="button" data-apply-plan-mode="${escapeHtml(p.mode)}">设为当前可编辑方案</button>
+          </div>
         </details>
       </article>
     `;
@@ -1592,7 +1677,47 @@ function renderPlanCompareTable(result) {
     .join("");
 }
 
-function renderPlan(result) {
+function renderPlanRestoreBar() {
+  const box = $("planRestoreBar");
+  if (!box) return;
+  const currentMode = state.currentPlan?.summary?.selectedMode || "";
+  const backups = Object.entries(state.planBackups || {}).filter(([mode]) => mode && mode !== currentMode);
+  if (!backups.length) {
+    box.innerHTML = "";
+    return;
+  }
+  box.innerHTML = `
+    <article class="card">
+      <h3>已保存方案快照</h3>
+      <p class="muted">切换方案后，可一键恢复之前的选择。</p>
+      <div class="row wrap">
+        ${backups.map(([mode]) => `<button class="btn ghost" type="button" data-restore-plan-mode="${escapeHtml(mode)}">恢复 ${escapeHtml(modeLabel(mode))}</button>`).join("")}
+      </div>
+    </article>
+  `;
+}
+
+async function applyPlanMode(mode) {
+  if (!mode) return;
+  const payload = readPayload();
+  payload.selectedMode = mode;
+  if (state.transportData?.segmentOptions?.length && mode !== "mixed") {
+    const nextSegModes = {};
+    for (const seg of state.transportData.segmentOptions) nextSegModes[segKey(seg)] = mode;
+    state.selectedSegmentModes = nextSegModes;
+    payload.segmentModes = nextSegModes;
+  }
+  state.selectedMainMode = mode;
+  state.lastGeneratedPayload = payload;
+  const result = await api("/api/plan", { method: "POST", body: JSON.stringify(payload) });
+  renderPlan(result);
+}
+
+function renderPlan(result, options = {}) {
+  const prev = state.currentPlan;
+  if (options.saveBackup !== false && prev?.summary?.selectedMode) {
+    state.planBackups[prev.summary.selectedMode] = prev;
+  }
   state.currentPlan = result;
   state.currentWeather = result.weather || state.currentWeather;
   state.shareToken = null;
@@ -1670,6 +1795,7 @@ function renderPlan(result) {
   `;
 
   $("planCards").innerHTML = renderPlanCompareTable(result);
+  renderPlanRestoreBar();
 
   $("dailyPlan").innerHTML = (result.dailyPlan || [])
     .map(
@@ -1687,6 +1813,7 @@ function renderPlan(result) {
 
 async function generatePlan() {
   const payload = readPayload();
+  state.lastGeneratedPayload = payload;
   state.currentWeather = null;
   state.weatherError = "";
   renderWeatherPanel();
@@ -1771,6 +1898,68 @@ function guessRelatedCities(cities) {
   return uniq(rec).filter((x) => !currentKeys.includes(normalizeRegionText(x))).slice(0, 6);
 }
 
+function routeDistanceScore(departure, orderedCities) {
+  const route = [departure, ...(orderedCities || [])].filter(Boolean);
+  let total = 0;
+  for (let i = 0; i < route.length - 1; i += 1) {
+    total += estimateDistanceByName(route[i], route[i + 1]);
+  }
+  return Math.round(total);
+}
+
+function suggestRouteOrders(departure, destinations) {
+  const dep = canonicalCityInput(departure);
+  const uniqueDest = uniq((destinations || []).map(canonicalCityInput).filter(Boolean));
+  if (!dep || uniqueDest.length < 3) return [];
+
+  const byNearFirst = [...uniqueDest].sort((a, b) => estimateDistanceByName(dep, a) - estimateDistanceByName(dep, b));
+  const byFarFirst = [...byNearFirst].reverse();
+  const nearDistance = routeDistanceScore(dep, byNearFirst);
+  const farDistance = routeDistanceScore(dep, byFarFirst);
+  return [
+    {
+      title: "先近后远",
+      order: byNearFirst,
+      hint: `先走近程城市，减少前半程无效通勤`,
+      totalDistance: nearDistance
+    },
+    {
+      title: "先远后近",
+      order: byFarFirst,
+      hint: `先完成远程段，再回到近程城市收尾`,
+      totalDistance: farDistance
+    }
+  ];
+}
+
+function renderRouteOrderHint() {
+  const box = $("routeOrderHint");
+  if (!box) return;
+  const departure = $("departureCity")?.value?.trim() || "";
+  const suggestions = suggestRouteOrders(departure, state.destinationCities);
+  state.routeOrderSuggestions = suggestions;
+  if (!suggestions.length) {
+    box.innerHTML = '<h3>顺序优化建议</h3><p class="empty-state">当目标城市达到 3 个及以上时，会给出减少折返的建议。</p>';
+    return;
+  }
+  box.innerHTML = `
+    <h3>顺序优化建议</h3>
+    <p class="muted">当前路线：${escapeHtml([departure, ...state.destinationCities].filter(Boolean).join(" → "))}</p>
+    ${suggestions
+      .map(
+        (s, idx) => `
+      <article class="route-order-item">
+        <p><strong>${escapeHtml(s.title)}</strong> ｜ 估算跨城里程 ${s.totalDistance} km</p>
+        <p class="muted">${escapeHtml(s.hint)}</p>
+        <p class="muted">${escapeHtml([departure, ...s.order].join(" → "))}</p>
+        <button class="btn ghost" type="button" data-apply-route-order="${idx}">应用此顺序</button>
+      </article>
+    `
+      )
+      .join("")}
+  `;
+}
+
 function renderDestinationList() {
   const box = $("destCityList");
   if (!box) return;
@@ -1780,6 +1969,7 @@ function renderDestinationList() {
         .join("")
     : '<span class="empty-state">还没有目标城市，请先添加。</span>';
   renderHotCityBars();
+  renderRouteOrderHint();
   markStep1DirtyIfNeeded();
 }
 
@@ -1894,7 +2084,10 @@ function bindPlanActions() {
   $("startPlanBtn").addEventListener("click", () => goto("/plan/step-1"));
   $("customPlanBtn").addEventListener("click", () => goto("/plan/step-1"));
 
-  $("departureCity")?.addEventListener("input", markStep1DirtyIfNeeded);
+  $("departureCity")?.addEventListener("input", () => {
+    renderRouteOrderHint();
+    markStep1DirtyIfNeeded();
+  });
   $("travelers")?.addEventListener("input", markStep1DirtyIfNeeded);
   $("budgetLimit")?.addEventListener("input", markStep1DirtyIfNeeded);
   $("relation")?.addEventListener("change", markStep1DirtyIfNeeded);
@@ -1952,6 +2145,17 @@ function bindPlanActions() {
     renderRelatedCitySuggestions();
   });
 
+  $("routeOrderHint")?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-apply-route-order]");
+    if (!btn) return;
+    const idx = Number(btn.dataset.applyRouteOrder);
+    const item = state.routeOrderSuggestions[idx];
+    if (!item?.order?.length) return;
+    state.destinationCities = [...item.order];
+    renderDestinationList();
+    renderRelatedCitySuggestions();
+  });
+
   $("cityInputSuggestList")?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-city-suggest]");
     if (!btn) return;
@@ -1980,23 +2184,25 @@ function bindPlanActions() {
       async (pos) => {
         try {
           const { latitude, longitude } = pos.coords;
-          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${latitude}&lon=${longitude}`);
-          const data = await res.json();
-          const addr = data.address || {};
-          const city = addr.city || addr.town || addr.county || addr.state || "";
+          const city = await reverseGeocodeCity(latitude, longitude);
           if (city) {
             $("departureCity").value = city;
             setLocationHint(`已定位到：${city}`);
             markStep1DirtyIfNeeded();
           } else {
-            setLocationHint("已获取定位，但未识别到城市名称，请手动确认。", true);
+            setLocationHint("已获取经纬度，但解析城市失败。可能是浏览器网络策略导致，请手动输入城市。", true);
           }
         } catch (_err) {
-          setLocationHint("定位解析失败。请确认浏览器能访问定位服务，或手动输入出发地。", true);
+          setLocationHint("定位解析失败。请确认浏览器可访问外部定位服务，或手动输入出发地。", true);
         }
       },
       (err) => {
-        const msg = err?.code === 1 ? "定位权限被拒绝，请在浏览器设置中允许定位后重试。" : "定位失败，请检查网络与定位权限后重试。";
+        const msg =
+          err?.code === 1
+            ? "定位权限被拒绝，请在浏览器设置中允许“位置”后重试。"
+            : err?.code === 2
+            ? "无法获取定位信号，可能是浏览器或系统定位服务限制。"
+            : "定位超时，请检查网络与定位权限后重试。";
         setLocationHint(msg, true);
       },
       { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
@@ -2119,6 +2325,27 @@ function bindPlanSelections() {
     const city = btn.dataset.hotelCity;
     state.selectedHotels[city] = { name: btn.dataset.hotelName, price: Number(btn.dataset.hotelPrice) };
     loadHotelStep().catch((err) => alert(err.message));
+  });
+
+  $("planCards")?.addEventListener("click", async (event) => {
+    const btn = event.target.closest("[data-apply-plan-mode]");
+    if (!btn) return;
+    const mode = btn.dataset.applyPlanMode;
+    if (!mode) return;
+    try {
+      await applyPlanMode(mode);
+    } catch (err) {
+      alert(err?.message || "切换方案失败，请重试。");
+    }
+  });
+
+  $("planRestoreBar")?.addEventListener("click", (event) => {
+    const btn = event.target.closest("[data-restore-plan-mode]");
+    if (!btn) return;
+    const mode = btn.dataset.restorePlanMode;
+    const cached = mode ? state.planBackups[mode] : null;
+    if (!cached) return;
+    renderPlan(cached, { saveBackup: false });
   });
 }
 

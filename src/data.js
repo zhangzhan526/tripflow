@@ -240,6 +240,11 @@ const SPOT_IMAGE_BY_KEYWORD = {
 };
 
 const SPOT_IMAGE_EXTRA_BY_KEYWORD = {
+  外滩: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
+  陆家嘴: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
+  外滩夜景轻漫游: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
+  山城夜游与轻轨穿楼: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+  鼓浪屿海风漫行: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
   夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
   中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
   拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
@@ -770,6 +775,54 @@ const cityHotels = {
   ]
 };
 
+function enrichHotelRows(city, rows = []) {
+  const base = (rows || []).map((row, idx) => {
+    const district = row.district || `${canonicalizeCity(city).replace(/市$/u, "")}核心区`;
+    const address = row.address || `${district}${row.name}附近`;
+    const mapsUrl = row.mapsUrl || `https://uri.amap.com/search?keyword=${encodeURIComponent(`${canonicalizeCity(city)} ${row.name}`)}`;
+    return {
+      ...row,
+      district,
+      address,
+      mapsUrl,
+      stars: row.stars || (idx % 2 === 0 ? 4.6 : 4.3),
+      facilities: row.facilities || ["地铁便利", "24h前台", "行李寄存"]
+    };
+  });
+
+  const templates = [
+    { suffix: "轻居酒店", tags: ["交通便利", "商务"], stars: 4.5, facilities: ["地铁500米", "早餐", "洗衣房"] },
+    { suffix: "城景酒店", tags: ["观景", "安静"], stars: 4.4, facilities: ["高层景观", "健身房", "停车场"] },
+    { suffix: "青年友好酒店", tags: ["性价比", "灵活入住"], stars: 4.2, facilities: ["前台24h", "公共休息区", "自助寄存"] },
+    { suffix: "精品酒店", tags: ["设计感", "舒适"], stars: 4.7, facilities: ["大床房", "延迟退房", "智能客控"] },
+    { suffix: "轻奢酒店", tags: ["品质", "服务"], stars: 4.8, facilities: ["行政酒廊", "接送服务", "健身房"] }
+  ];
+
+  const out = [...base];
+  let i = 0;
+  while (out.length < 5 && i < templates.length) {
+    const t = templates[i];
+    const cityName = canonicalizeCity(city);
+    const district = `${cityName.replace(/市$/u, "")}${["中心", "东部", "西部", "南部", "北部"][i % 5]}片区`;
+    const name = `${cityName.replace(/市$/u, "")}${t.suffix}`;
+    out.push({
+      name,
+      price: 220 + i * 40,
+      tags: t.tags,
+      reason: `靠近${district}交通枢纽，适合行程中转。`,
+      district,
+      address: `${district}${name}（以预订页为准）`,
+      mapsUrl: `https://uri.amap.com/search?keyword=${encodeURIComponent(`${cityName} ${name}`)}`,
+      stars: t.stars,
+      facilities: t.facilities,
+      videoUrl: `https://www.douyin.com/search/${encodeURIComponent(`${cityName} ${name} 酒店`)}`,
+      detail: "支持在线预订与退改说明，建议预订前核对入住政策。"
+    });
+    i += 1;
+  }
+  return out.slice(0, 8);
+}
+
 const cityFoods = {
   杭州市: [
     { name: "西湖醋鱼", price: 88, image: "https://source.unsplash.com/640x420/?hangzhou,food,fish" },
@@ -1013,7 +1066,8 @@ function getCityAttractions(city) {
 
 function getCityHotels(city) {
   const normalized = normalizeCityInput(city);
-  return cityHotels[normalized] || cityHotels.default;
+  const list = cityHotels[normalized] || cityHotels.default;
+  return enrichHotelRows(normalized || city, list);
 }
 
 function getCityFoods(city) {
