@@ -226,7 +226,7 @@ const CLIENT_SPOT_IMAGE_MAP = {
   河坊街: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&w=900&q=80",
   法喜寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
   八大关: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
-  小麦岛: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
+  小麦岛: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=900&q=80",
   栈桥: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
   洱海: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=900&q=80",
   喜洲古镇: "https://images.unsplash.com/photo-1629978009230-a2f7d6b0f6c1?auto=format&fit=crop&w=900&q=80",
@@ -253,10 +253,12 @@ const CLIENT_SPOT_IMAGE_EXTRA_MAP = {
   冰雪城市夜游: "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin%20ice%20and%20snow%20world%2C%20temple.jpg",
   北京中轴线城市漫游: "https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City_Beijing_Shenwumen_Gate.JPG",
   成都慢节奏烟火旅行: "https://commons.wikimedia.org/wiki/Special:FilePath/Jinli%20Street%20-%20Chengdu.jpg",
-  城墙与古都文化打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Xi%27an%20City%20Wall%20%289912110523%29.jpg",
-  珠江夜航与老城美食: "https://commons.wikimedia.org/wiki/Special:FilePath/Canton%20Tower%20at%20night.jpg",
-  高原花城轻松散步: "https://commons.wikimedia.org/wiki/Special:FilePath/55524-Kunming-Green-Lake-Park.jpg",
-  夜市与城市烟火打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Orange%20Isle%2C%20Changsha%203.jpg",
+  城墙与古都文化打卡: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
+  珠江夜航与老城美食: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+  高原花城轻松散步: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+  夜市与城市烟火打卡: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80",
+  小鱼山: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=900&q=80",
+  五四广场: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=900&q=80",
   夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
   中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
   拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
@@ -371,7 +373,9 @@ function resolveClientSpotImage(name, city, kind = "spot") {
   const hit = Object.entries(map)
     .filter(([k]) => k && text.includes(k))
     .sort((a, b) => b[0].length - a[0].length)[0];
-  return toDisplayImageUrl(hit?.[1] || resolveClientCityImage(city));
+  if (hit?.[1]) return toDisplayImageUrl(hit[1]);
+  const query = kind === "food" ? `${name},${city},food,china` : `${name},${city},landmark,china`;
+  return toDisplayImageUrl(`https://source.unsplash.com/1200x900/?${encodeURIComponent(query)}`, resolveClientCityImage(city));
 }
 
 function normalizeExternalUrl(rawUrl) {
