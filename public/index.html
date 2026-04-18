@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>TripFlow · 青年旅行规划</title>
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <button id="headerBackBtn" class="icon-btn hidden" aria-label="返回">‹</button>
+        <h1 id="headerTitle">发现</h1>
+        <button id="installAppBtn" class="icon-btn hidden" type="button" aria-label="安装应用" title="安装应用">↓</button>
+      </header>
+
+      <section id="viewStack" class="view-stack">
+        
+        <section id="route-feed" class="route-view active">
+          <div id="onboardingLayer" class="onboarding hidden" aria-live="polite">
+            <article class="card onboarding-card">
+              <h3>欢迎使用 TripFlow</h3>
+              <p>3 步快速上手：先看推荐，再筛选搜索，最后一键生成行程。</p>
+              <div class="onboarding-steps">
+                <div class="onboarding-step"><strong>1</strong><span>点击景点卡片看详情和预算</span></div>
+                <div class="onboarding-step"><strong>2</strong><span>用标签和搜索快速定位目的地</span></div>
+                <div class="onboarding-step"><strong>3</strong><span>点右下角加号开始自定义规划</span></div>
+              </div>
+              <div class="row">
+                <button id="closeOnboardingBtn" class="btn" type="button">知道了</button>
+              </div>
+            </article>
+          </div>
+
+          <div id="tagFilterBar" class="tag-filter-bar">
+            <button class="chip active" data-tag="推荐">推荐</button>
+            <button class="chip" data-tag="春季">春季</button>
+            <button class="chip" data-tag="山野">山野</button>
+            <button class="chip" data-tag="海边">海边</button>
+            <button id="toggleMoreTagsBtn" class="chip chip-more" type="button" aria-expanded="false">更多</button>
+            <button class="chip chip-extra" data-tag="古城">古城</button>
+            <button class="chip chip-extra" data-tag="都市">都市</button>
+          </div>
+
+          <div class="feed-search-wrap">
+            <input id="feedSearchInput" type="search" placeholder="搜索景点或城市，如：西湖 / 杭州" />
+            <button id="feedSearchClearBtn" class="btn ghost" type="button">清空</button>
+          </div>
+
+          <div class="feed-controls">
+            <label>
+              季节
+              <select id="seasonSelect">
+                <option value="all">全部</option>
+                <option value="spring">春季</option>
+                <option value="summer">夏季</option>
+                <option value="autumn">秋季</option>
+                <option value="winter">冬季</option>
+              </select>
+            </label>
+            <label>
+              类型
+              <select id="kindSelect">
+                <option value="all">全部</option>
+                <option value="seasonal">应季推荐</option>
+                <option value="hot">热门打卡</option>
+              </select>
+            </label>
+          </div>
+
+          <div id="feedGrid" class="feed-grid"></div>
+        </section>
+
+        <section id="route-spot" class="route-view">
+          <article id="spotHero" class="card"></article>
+          <article id="spotCostDetails" class="card"></article>
+          <article id="spotVideos" class="card"></article>
+          <div class="spot-actions">
+            <button id="startPlanBtn" class="btn">按该景点开始规划</button>
+            <button id="customPlanBtn" class="btn ghost">自定义全部行程</button>
+          </div>
+        </section>
+
+        <section id="route-plan-step-1" class="route-view">
+          <article class="card">
+            <h3 class="step-title">步骤 1/5 · 基本信息</h3>
+            <p class="muted">目标城市改为列表输入，可增删；并自动推荐关联城市。</p>
+            <div class="form-grid">
+              <label>出发地（城市/省份）<input id="departureCity" list="cityDataList" placeholder="例如：上海 或 浙江省" /></label>
+              <label>出发日期<input id="startDate" type="date" /></label>
+              <label>结束日期<input id="endDate" type="date" /></label>
+              <label>偏好出发时间<input id="preferredDepartureTime" type="time" value="09:00" /></label>
+              <label>总天数<input id="days" type="number" min="1" max="30" value="4" /></label>
+              <label>出行人数<input id="travelers" type="number" min="1" max="12" value="2" /></label>
+              <label>预算上限（元）<input id="budgetLimit" type="number" min="0" step="100" value="6000" /></label>
+              <label>出行关系
+                <select id="relation">
+                  <option value="friends">朋友组队</option>
+                  <option value="couple">情侣</option>
+                  <option value="solo">单人</option>
+                </select>
+              </label>
+            </div>
+            <div class="row wrap">
+              <button id="useCurrentLocationBtn" class="btn ghost" type="button">使用当前位置</button>
+              <span id="dateValidationHint" class="muted"></span>
+            </div>
+
+            <article class="card">
+              <h3>热门城市快捷填入</h3>
+              <div id="hotDepartureCityBar" class="row wrap"></div>
+              <p class="muted">点击上方城市可快速填入出发地</p>
+              <div id="hotDestinationCityBar" class="row wrap"></div>
+              <p class="muted">点击上方城市可快速加入目标城市</p>
+            </article>
+
+            <label class="check"><input id="studentMode" type="checkbox" />学生模式（学生票、平价住宿优先）</label>
+            <label class="check"><input id="returnToDeparture" type="checkbox" checked />自动规划返程交通并计入预算</label>
+            <label>规划偏好
+              <select id="travelPreference">
+                <option value="balanced">均衡优先</option>
+                <option value="saveMoney">省钱优先</option>
+                <option value="saveTime">省时优先</option>
+                <option value="comfort">舒适优先</option>
+              </select>
+            </label>
+
+            <div class="row wrap">
+              <input id="destCityInput" list="cityDataList" placeholder="输入目标城市或省份，例如：杭州 / 云南省" />
+              <button id="addDestCityBtn" class="btn ghost">添加目标城市</button>
+            </div>
+            <div id="cityInputSuggestList" class="row wrap"></div>
+            <datalist id="cityDataList"></datalist>
+            <div id="destCityList" class="row wrap"></div>
+            <div id="relatedCityBox" class="card"></div>
+
+            <div class="row">
+              <button id="goStep2Btn" class="btn">下一步：交通方式</button>
+            </div>
+          </article>
+        </section>
+
+        <section id="route-plan-step-2" class="route-view">
+          <div id="smartJudgeInfo"></div>
+          <div id="recommendedModeCard"></div>
+          <div id="segmentSelectionSummary"></div>
+          <article id="rentalSuggestion" class="card"></article>
+          <div id="segmentTransportList"></div>
+          <div class="row">
+            <button id="step2BackBtn" class="btn ghost">上一步</button>
+            <button id="goStep3Btn" class="btn">下一步：景点选择</button>
+            <button id="skipStep2Btn" class="btn ghost">跳过</button>
+          </div>
+        </section>
+
+        <section id="route-plan-step-3" class="route-view">
+          <article class="card">
+            <h3 class="step-title">步骤 3/5 · 选择景点与热门打卡点</h3>
+            <p class="muted">每个景点下方直接展示视频链接，也可点“查看详情”。</p>
+            <div class="form-grid">
+              <label>自定义景点所属城市
+                <select id="customSpotCity"></select>
+              </label>
+              <label>添加景点（自然语言）
+                <input id="customSpotInput" placeholder="例如：想看夜景和古镇，安排拍照打卡点" />
+              </label>
+            </div>
+            <div class="row">
+              <button id="addCustomSpotBtn" class="btn ghost">添加自定义景点</button>
+            </div>
+          </article>
+          <div id="attractionSelector"></div>
+          <div id="shortVideoList"></div>
+          <div class="row">
+            <button id="step3BackBtn" class="btn ghost">上一步</button>
+            <button id="goStep4Btn" class="btn">下一步：美食与餐饮</button>
+          </div>
+        </section>
+
+        <section id="route-plan-step-4" class="route-view">
+          <div id="foodSelector"></div>
+          <div class="row">
+            <button id="backToStep3Btn" class="btn ghost">上一步</button>
+            <button id="goStep5Btn" class="btn">下一步：预算结果</button>
+          </div>
+        </section>
+
+        <section id="route-plan-step-5" class="route-view">
+          <div id="hotelSelector"></div>
+          <div class="row wrap">
+            <button id="generateBtn" class="btn">生成方案</button>
+            <button id="saveHistoryBtn" class="btn ghost" disabled>保存历史</button>
+            <button id="shareBtn" class="btn ghost" disabled>分享链接</button>
+            <button id="exportBtn" class="btn ghost" disabled>导出文本</button>
+          </div>
+          <div id="alertBox"></div>
+          <div id="planSummary"></div>
+          <div id="weatherPanel"></div>
+          <div id="costBreakdown"></div>
+          <div id="timeBreakdown"></div>
+          <div id="planCards"></div>
+          <div id="dailyPlan"></div>
+          <div id="reminderList"></div>
+        </section>
+
+        <section id="route-history" class="route-view">
+          <div class="row">
+            <button id="refreshHistoryBtn" class="btn">刷新历史</button>
+          </div>
+          <div id="historyList"></div>
+        </section>
+      </section>
+
+      <button id="feedFloatingPlanBtn" class="fab fab-hidden" aria-label="自定义规划">+</button>
+      <button id="step3FloatingNextBtn" class="fab fab-step-next hidden" aria-label="下一步">下一步</button>
+
+      <nav class="tabbar">
+        <button class="tab-item active" data-tab="/feed">发现</button>
+        <button class="tab-item" data-tab="/plan/step-1">行程规划</button>
+        <button class="tab-item" data-tab="/history">历史</button>
+      </nav>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>

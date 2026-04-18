@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c2d12"/><stop offset="1" stop-color="#fb923c"/></linearGradient></defs>
+  <rect width="900" height="1000" fill="url(#g)"/>
+  <path d="M80 760 H820 V840 H80 Z" fill="#ffffff30"/>
+  <path d="M180 680 H720 V760 H180 Z" fill="#ffffff24"/>
+  <text x="70" y="840" fill="#fff" font-size="70" font-family="Arial, sans-serif" font-weight="700">Citywalk</text>
+  <text x="70" y="900" fill="#fff4e8" font-size="34" font-family="Arial, sans-serif">Beijing Landmark Route</text>
+</svg>

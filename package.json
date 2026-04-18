@@ -1,0 +1,12 @@
+{
+  "name": "youth-travel-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full local app for youth all-domain travel intelligent planning",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node test/run-tests.js",
+    "test:smoke": "node test/smoke-pwa.js"
+  }
+}

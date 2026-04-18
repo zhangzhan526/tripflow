@@ -1,0 +1,7 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1000">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e3a8a"/><stop offset="1" stop-color="#60a5fa"/></linearGradient></defs>
+  <rect width="900" height="1000" fill="url(#g)"/>
+  <g fill="#ffffff2a"><rect x="80" y="620" width="120" height="180"/><rect x="240" y="560" width="120" height="240"/><rect x="400" y="600" width="120" height="200"/><rect x="560" y="520" width="120" height="280"/><rect x="720" y="580" width="120" height="220"/></g>
+  <text x="70" y="840" fill="#fff" font-size="70" font-family="Arial, sans-serif" font-weight="700">Ice City</text>
+  <text x="70" y="900" fill="#e7f0ff" font-size="34" font-family="Arial, sans-serif">Harbin Winter Night</text>
+</svg>

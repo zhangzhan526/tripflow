@@ -1,0 +1,471 @@
+{
+  "trips": [],
+  "shares": {},
+  "offline": {
+    "latestPlan": {
+      "data": {
+        "summary": {
+          "departureCity": "上海",
+          "cities": [
+            "上海",
+            "杭州",
+            "厦门",
+            "黄山"
+          ],
+          "totalCities": 4,
+          "days": 4,
+          "travelers": 2,
+          "relation": "friends",
+          "studentMode": false,
+          "travelPreference": "均衡优先",
+          "selectedMode": "rail",
+          "segmentModes": {
+            "上海市-杭州市": "rail",
+            "杭州市-厦门市": "rail",
+            "厦门市-黄山市": "rail",
+            "黄山市-上海市": "rail"
+          },
+          "selectedTickets": {},
+          "returnToDeparture": true
+        },
+        "costs": {
+          "attractionsCount": 0,
+          "attractionCost": 0,
+          "baseHotelCost": 1040,
+          "selectedHotelCost": 3040,
+          "hotelCost": 3040,
+          "baseMealCost": 1120,
+          "foodExtra": 0,
+          "mealCost": 1120,
+          "commonCost": 4160
+        },
+        "carSuggestion": {
+          "shouldSuggest": true,
+          "reasons": [
+            "已选景点分散",
+            "公共交通班次较少",
+            "末端接驳预计超过 1 小时"
+          ]
+        },
+        "plans": [
+          {
+            "mode": "rail",
+            "label": "省钱公共交通版",
+            "totalCost": 10368,
+            "totalHoursTight": 81.53,
+            "totalHoursRelaxed": 86.73,
+            "freedomScore": 4.8,
+            "convenienceScore": 7,
+            "details": {
+              "transportCost": 6208,
+              "items": {
+                "railTicket": 6048,
+                "cityTransit": 160
+              },
+              "time": {
+                "onTrainHours": 32.73,
+                "stationWaitHours": 6,
+                "intraCityHours": 5.6,
+                "sightseeingHours": 35.2,
+                "bufferHours": 2
+              },
+              "scenicHint": "已自动标注沿线山海/田园/峡谷等景观和靠窗建议。"
+            }
+          },
+          {
+            "mode": "air",
+            "label": "高效高铁飞机版",
+            "totalCost": 17560,
+            "totalHoursTight": 63.09,
+            "totalHoursRelaxed": 67.49,
+            "freedomScore": 5.4,
+            "convenienceScore": 7.9,
+            "details": {
+              "transportCost": 13400,
+              "items": {
+                "flightTicket": 12960,
+                "airportShuttle": 440
+              },
+              "time": {
+                "inAirHours": 10.29,
+                "airportProcessHours": 9.2,
+                "intraCityHours": 6,
+                "sightseeingHours": 35.6,
+                "bufferHours": 2
+              },
+              "shuttleHint": "已纳入机场到市区接驳时间与费用。"
+            }
+          },
+          {
+            "mode": "privateCar",
+            "label": "自有车自驾版",
+            "totalCost": 7968.8,
+            "totalHoursTight": 134.31,
+            "totalHoursRelaxed": 137.91,
+            "freedomScore": 9.3,
+            "convenienceScore": 7.6,
+            "details": {
+              "transportCost": 3808.8,
+              "items": {
+                "energyCost": 388.8,
+                "toll": 3240,
+                "parking": 180
+              },
+              "time": {
+                "driveHours": 97.11,
+                "sightseeingHours": 35.2,
+                "bufferHours": 2
+              },
+              "totalDistanceKm": 7200,
+              "routeOptions": [
+                "最快时效路线",
+                "最短距离路线",
+                "景观自驾路线"
+              ]
+            }
+          },
+          {
+            "mode": "rentalCar",
+            "label": "城市内租车中转版",
+            "totalCost": 13958.4,
+            "totalHoursTight": 135.81,
+            "totalHoursRelaxed": 139.81,
+            "freedomScore": 8.7,
+            "convenienceScore": 8.1,
+            "details": {
+              "transportCost": 9798.4,
+              "items": {
+                "rentalFee": 1040,
+                "serviceFee": 120,
+                "insurance": 160,
+                "cityPickupFee": 0,
+                "fuel": 5018.4,
+                "toll": 3240,
+                "parking": 220
+              },
+              "time": {
+                "driveHours": 97.11,
+                "pickupReturnHours": 1.5,
+                "sightseeingHours": 35.2,
+                "bufferHours": 2
+              },
+              "totalDistanceKm": 7200,
+              "rentalSupport": [
+                "信用免押说明",
+                "验车 checklist",
+                "满油取还规则"
+              ]
+            }
+          }
+        ],
+        "topRecommendations": [
+          {
+            "rank": 1,
+            "mode": "privateCar",
+            "label": "自有车自驾版",
+            "recommendScore": 0.68,
+            "totalCost": 7968.8,
+            "totalHoursTight": 134.31
+          },
+          {
+            "rank": 2,
+            "mode": "rail",
+            "label": "省钱公共交通版",
+            "recommendScore": 0.5,
+            "totalCost": 10368,
+            "totalHoursTight": 81.53
+          },
+          {
+            "rank": 3,
+            "mode": "rentalCar",
+            "label": "城市内租车中转版",
+            "recommendScore": 0.46,
+            "totalCost": 13958.4,
+            "totalHoursTight": 135.81
+          }
+        ],
+        "budgetAlerts": [
+          {
+            "mode": "rail",
+            "overBudget": true,
+            "overBy": 4368
+          },
+          {
+            "mode": "air",
+            "overBudget": true,
+            "overBy": 11560
+          },
+          {
+            "mode": "privateCar",
+            "overBudget": true,
+            "overBy": 1968.8
+          },
+          {
+            "mode": "rentalCar",
+            "overBudget": true,
+            "overBy": 7958.4
+          }
+        ],
+        "selectedCostBreakdown": {
+          "include": [
+            {
+              "key": "attractionCost",
+              "amount": 0,
+              "usage": "景点门票和活动入场费用",
+              "fluctuation": "浮动约 ±20%"
+            },
+            {
+              "key": "selectedHotelCost",
+              "amount": 3040,
+              "usage": "你已选择酒店方案费用",
+              "fluctuation": "浮动约 ±25%"
+            },
+            {
+              "key": "mealCost",
+              "amount": 1120,
+              "usage": "基础餐饮预算（每日三餐）",
+              "fluctuation": "浮动约 ±20%"
+            },
+            {
+              "key": "railTicket",
+              "amount": 6048,
+              "usage": "跨城高铁票",
+              "fluctuation": "浮动约 ±15%"
+            },
+            {
+              "key": "flightTicket",
+              "amount": 0,
+              "usage": "跨城机票",
+              "fluctuation": "浮动约 ±35%"
+            },
+            {
+              "key": "airportShuttle",
+              "amount": 0,
+              "usage": "机场往返市区接驳",
+              "fluctuation": "浮动约 ±20%"
+            },
+            {
+              "key": "energyCost",
+              "amount": 0,
+              "usage": "自驾油费/电费",
+              "fluctuation": "浮动约 ±25%"
+            },
+            {
+              "key": "toll",
+              "amount": 0,
+              "usage": "高速通行费",
+              "fluctuation": "浮动约 ±10%"
+            },
+            {
+              "key": "parking",
+              "amount": 0,
+              "usage": "景区与城市停车费",
+              "fluctuation": "浮动约 ±30%"
+            },
+            {
+              "key": "rentalFee",
+              "amount": 0,
+              "usage": "租车基础日租",
+              "fluctuation": "浮动约 ±25%"
+            },
+            {
+              "key": "serviceFee",
+              "amount": 0,
+              "usage": "门店服务与手续费用",
+              "fluctuation": "浮动约 ±10%"
+            },
+            {
+              "key": "insurance",
+              "amount": 0,
+              "usage": "基础保险费用",
+              "fluctuation": "浮动约 ±10%"
+            },
+            {
+              "key": "cityPickupFee",
+              "amount": 0,
+              "usage": "异地或特殊取还车费用",
+              "fluctuation": "浮动约 ±50%"
+            },
+            {
+              "key": "fuel",
+              "amount": 0,
+              "usage": "租车用油/电成本",
+              "fluctuation": "浮动约 ±25%"
+            },
+            {
+              "key": "cityTransit",
+              "amount": 160,
+              "usage": "地铁/公交/短距离打车",
+              "fluctuation": "浮动约 ±20%"
+            }
+          ],
+          "total": 10368,
+          "explain": "以上费用包含固定旅行成本和当前所选交通方式的明细成本，实际会随日期、票量与酒店库存波动。"
+        },
+        "selectedTimeBreakdown": {
+          "include": [
+            {
+              "key": "onTrainHours",
+              "hours": 32.73,
+              "usage": "列车运行与途中停靠"
+            },
+            {
+              "key": "stationWaitHours",
+              "hours": 6,
+              "usage": "进站安检、候车与换乘"
+            },
+            {
+              "key": "inAirHours",
+              "hours": 0,
+              "usage": "飞行在途时长"
+            },
+            {
+              "key": "airportProcessHours",
+              "hours": 0,
+              "usage": "值机、安检与到达取行李"
+            },
+            {
+              "key": "driveHours",
+              "hours": 0,
+              "usage": "自驾路段驾驶时间"
+            },
+            {
+              "key": "pickupReturnHours",
+              "hours": 0,
+              "usage": "租车取还车办理时间"
+            },
+            {
+              "key": "intraCityHours",
+              "hours": 5.6,
+              "usage": "城市内景点之间通勤"
+            },
+            {
+              "key": "sightseeingHours",
+              "hours": 35.2,
+              "usage": "景点游玩与活动体验"
+            },
+            {
+              "key": "bufferHours",
+              "hours": 2,
+              "usage": "预留机动时间（拍照/排队/临时停留）"
+            }
+          ],
+          "tight": 81.53,
+          "relaxed": 85.93,
+          "explain": "紧凑时长用于效率优先，宽松时长额外加入拍照、排队与临时停留冗余。"
+        },
+        "reminders": [
+          "当前方案较预算超出 4368 元，可减少收费景点或降低住宿档位。",
+          "高铁方案建议提前 3-7 天锁票，热门时段优先选择可候补车次。",
+          "末端接驳耗时偏长，建议优先选择距离地铁/公交站更近的景点组合。",
+          "系统已为每日行程预留 30 分钟弹性缓冲。"
+        ],
+        "dailyPlan": [
+          {
+            "day": 1,
+            "city": "上海",
+            "highlights": [
+              "地标打卡 x1",
+              "拍照出片点",
+              "美食聚集区"
+            ],
+            "timeTemplate": {
+              "morning": "09:00-12:00 景点游玩",
+              "afternoon": "13:30-17:30 城市串联/景点间交通",
+              "evening": "19:00-21:00 夜游与餐饮"
+            },
+            "flexBufferMinutes": 30
+          },
+          {
+            "day": 2,
+            "city": "杭州",
+            "highlights": [
+              "地标打卡 x1",
+              "拍照出片点",
+              "美食聚集区"
+            ],
+            "timeTemplate": {
+              "morning": "09:00-12:00 景点游玩",
+              "afternoon": "13:30-17:30 城市串联/景点间交通",
+              "evening": "19:00-21:00 夜游与餐饮"
+            },
+            "flexBufferMinutes": 30
+          },
+          {
+            "day": 3,
+            "city": "厦门",
+            "highlights": [
+              "地标打卡 x1",
+              "拍照出片点",
+              "美食聚集区"
+            ],
+            "timeTemplate": {
+              "morning": "09:00-12:00 景点游玩",
+              "afternoon": "13:30-17:30 城市串联/景点间交通",
+              "evening": "19:00-21:00 夜游与餐饮"
+            },
+            "flexBufferMinutes": 30
+          },
+          {
+            "day": 4,
+            "city": "黄山",
+            "highlights": [
+              "地标打卡 x1",
+              "拍照出片点",
+              "美食聚集区"
+            ],
+            "timeTemplate": {
+              "morning": "09:00-12:00 景点游玩",
+              "afternoon": "13:30-17:30 城市串联/景点间交通",
+              "evening": "19:00-21:00 夜游与餐饮"
+            },
+            "flexBufferMinutes": 30
+          }
+        ],
+        "crossCityConnections": [
+          {
+            "from": "上海",
+            "to": "杭州",
+            "distanceKm": 1800,
+            "publicTransitHint": "自动匹配上一城市结束时间后的最近车次/航班",
+            "selfDriveHint": "自动规避拥堵并优先引导至景点停车点"
+          },
+          {
+            "from": "杭州",
+            "to": "厦门",
+            "distanceKm": 1800,
+            "publicTransitHint": "自动匹配上一城市结束时间后的最近车次/航班",
+            "selfDriveHint": "自动规避拥堵并优先引导至景点停车点"
+          },
+          {
+            "from": "厦门",
+            "to": "黄山",
+            "distanceKm": 1800,
+            "publicTransitHint": "自动匹配上一城市结束时间后的最近车次/航班",
+            "selfDriveHint": "自动规避拥堵并优先引导至景点停车点"
+          },
+          {
+            "from": "黄山",
+            "to": "上海",
+            "distanceKm": 1800,
+            "publicTransitHint": "自动匹配上一城市结束时间后的最近车次/航班",
+            "selfDriveHint": "自动规避拥堵并优先引导至景点停车点"
+          }
+        ],
+        "returnPlan": {
+          "lastCity": "黄山",
+          "returnTo": "上海",
+          "note": "已自动生成返程交通闭环建议。",
+          "includedInEstimate": true,
+          "returnSegment": {
+            "from": "黄山",
+            "to": "上海",
+            "distanceKm": 1800
+          }
+        },
+        "generatedAt": "2026-04-18T02:40:49.489Z"
+      },
+      "savedAt": "2026-04-18T02:40:49.494Z"
+    }
+  }
+}

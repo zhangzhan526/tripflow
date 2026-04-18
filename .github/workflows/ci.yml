@@ -1,0 +1,25 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "staging", "develop", "feature/**"]
+  pull_request:
+    branches: ["main", "staging"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run Unit Tests
+        run: node test/run-tests.js
+
+      - name: Run PWA Smoke Test
+        run: node test/smoke-pwa.js
