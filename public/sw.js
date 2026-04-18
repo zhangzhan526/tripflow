@@ -1,4 +1,4 @@
-const CACHE_NAME = "tripflow-pwa-beta-v12";
+const CACHE_NAME = "tripflow-pwa-beta-v13";
 const PRE_CACHE = [
   "/",
   "/feed",

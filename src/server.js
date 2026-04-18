@@ -57,6 +57,18 @@ function escapeHtml(input) {
 }
 
 const OUTBOUND_ALLOW_HOSTS = ["douyin.com", "www.douyin.com", "xiaohongshu.com", "www.xiaohongshu.com", "xhslink.com", "www.xhslink.com"];
+const IMAGE_PROXY_ALLOW_HOSTS = [
+  "images.unsplash.com",
+  "source.unsplash.com",
+  "commons.wikimedia.org",
+  "upload.wikimedia.org",
+  "wikimedia.org"
+];
+
+function isAllowedImageHost(hostname) {
+  const host = String(hostname || "").toLowerCase();
+  return IMAGE_PROXY_ALLOW_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+}
 
 function normalizeOutboundTarget(raw) {
   const txt = String(raw || "").trim();
@@ -249,6 +261,47 @@ const routes = {
     const city = urlObj.searchParams.get("city");
     if (!city) throw new Error("缺少 city 参数");
     sendJson(res, 200, { city, items: getCityFoods(city) });
+  }),
+
+  "GET /api/image-proxy": withErrorGuard(async (_req, res, urlObj) => {
+    const raw = String(urlObj.searchParams.get("url") || "").trim();
+    if (!raw) throw new Error("缺少 url 参数");
+    let targetUrl;
+    try {
+      targetUrl = new URL(raw);
+    } catch (_err) {
+      throw new Error("无效图片地址");
+    }
+    if (!/^https?:$/u.test(targetUrl.protocol)) throw new Error("仅支持 http/https 图片地址");
+    if (!isAllowedImageHost(targetUrl.hostname)) throw new Error("图片域名不在白名单");
+
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 12000);
+    let upstream;
+    try {
+      upstream = await fetch(targetUrl.toString(), {
+        redirect: "follow",
+        signal: controller.signal,
+        headers: {
+          Accept: "image/*,*/*;q=0.8",
+          "User-Agent": "TripFlowImageProxy/1.0"
+        }
+      });
+    } finally {
+      clearTimeout(timer);
+    }
+
+    if (!upstream.ok) throw new Error(`上游图片请求失败: ${upstream.status}`);
+    const contentType = String(upstream.headers.get("content-type") || "application/octet-stream");
+    if (!contentType.toLowerCase().startsWith("image/")) throw new Error("上游返回的不是图片资源");
+    const body = Buffer.from(await upstream.arrayBuffer());
+    res.writeHead(200, {
+      "Content-Type": contentType,
+      "Content-Length": body.length,
+      "Cache-Control": "public, max-age=86400, s-maxage=86400",
+      "Access-Control-Allow-Origin": "*"
+    });
+    res.end(body);
   }),
 
   "POST /api/transport-options": withErrorGuard(async (req, res) => {

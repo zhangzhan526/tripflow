@@ -330,11 +330,39 @@ const CLIENT_FOOD_IMAGE_EXTRA_MAP = {
 const CLIENT_CITY_IMAGE_ALL = { ...CLIENT_CITY_IMAGE_MAP, ...CLIENT_CITY_IMAGE_EXTRA_MAP };
 const CLIENT_SPOT_IMAGE_ALL = { ...CLIENT_SPOT_IMAGE_MAP, ...CLIENT_SPOT_IMAGE_EXTRA_MAP };
 const CLIENT_FOOD_IMAGE_ALL = { ...CLIENT_FOOD_IMAGE_MAP, ...CLIENT_FOOD_IMAGE_EXTRA_MAP };
+const IMAGE_PROXY_HOST_PATTERN = /(^|\.)((images|source)\.unsplash\.com|commons\.wikimedia\.org|upload\.wikimedia\.org|wikimedia\.org)$/iu;
+
+function toDisplayImageUrl(rawUrl, fallback = "/assets/feeds/fallback.svg") {
+  const raw = String(rawUrl || "").trim();
+  if (!raw) return fallback;
+  try {
+    const u = new URL(raw, location.origin);
+    if (!/^https?:$/u.test(u.protocol)) return fallback;
+    if (u.origin === location.origin) return u.toString();
+    if (IMAGE_PROXY_HOST_PATTERN.test(u.hostname)) {
+      return `/api/image-proxy?url=${encodeURIComponent(u.toString())}`;
+    }
+    return u.toString();
+  } catch (_err) {
+    return fallback;
+  }
+}
+
+function decodeImageProxyTarget(urlLike) {
+  const raw = String(urlLike || "");
+  if (!raw.includes("/api/image-proxy?")) return "";
+  try {
+    const u = new URL(raw, location.origin);
+    return u.searchParams.get("url") || "";
+  } catch (_err) {
+    return "";
+  }
+}
 
 function resolveClientCityImage(city) {
   const key = normalizeRegionText(city || "");
   const hit = Object.entries(CLIENT_CITY_IMAGE_ALL).find(([k]) => normalizeRegionText(k) === key);
-  return hit?.[1] || "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80";
+  return toDisplayImageUrl(hit?.[1] || "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80");
 }
 
 function resolveClientSpotImage(name, city, kind = "spot") {
@@ -343,7 +371,7 @@ function resolveClientSpotImage(name, city, kind = "spot") {
   const hit = Object.entries(map)
     .filter(([k]) => k && text.includes(k))
     .sort((a, b) => b[0].length - a[0].length)[0];
-  return hit?.[1] || resolveClientCityImage(city);
+  return toDisplayImageUrl(hit?.[1] || resolveClientCityImage(city));
 }
 
 function normalizeExternalUrl(rawUrl) {
@@ -984,16 +1012,25 @@ function hideFeedFabOnDemand(hidden) {
 }
 
 function installFeedImageFallback() {
-  const grid = $("feedGrid");
-  if (!grid || grid.dataset.fallbackBound === "1") return;
-  grid.dataset.fallbackBound = "1";
-  grid.addEventListener(
+  const root = document;
+  if (!root || root.body?.dataset?.fallbackBound === "1") return;
+  if (root.body) root.body.dataset.fallbackBound = "1";
+  root.addEventListener(
     "error",
     (event) => {
       const img = event.target;
       if (!(img instanceof HTMLImageElement)) return;
-      if (img.dataset.fallbackApplied === "1") return;
-      img.dataset.fallbackApplied = "1";
+      const step = Number(img.dataset.fallbackStep || "0");
+      if (step >= 2) return;
+      if (step === 0) {
+        const direct = decodeImageProxyTarget(img.currentSrc || img.src);
+        if (direct) {
+          img.dataset.fallbackStep = "1";
+          img.src = direct;
+          return;
+        }
+      }
+      img.dataset.fallbackStep = "2";
       img.src = img.dataset.fallbackImg || "/assets/feeds/fallback.svg";
     },
     true
@@ -1013,7 +1050,7 @@ function renderFeed(items) {
     .map(
       (x) => `
       <article class="card feed-card" data-spot-id="${x.id}">
-        <img class="cover" src="${escapeHtml(x.image)}" alt="${escapeHtml(x.title)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-fallback-img="/assets/feeds/fallback.svg" />
+        <img class="cover" src="${escapeHtml(toDisplayImageUrl(x.image))}" alt="${escapeHtml(x.title)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-fallback-img="/assets/feeds/fallback.svg" />
         <h3>${escapeHtml(x.title)}</h3>
         <p>${escapeHtml(x.subtitle)}</p>
         <p>${escapeHtml(x.city)} \u00b7 \u8bc4\u5206 ${x.score}</p>
@@ -1038,7 +1075,7 @@ async function loadFeed() {
 
 function renderSpot(detail) {
   $("spotHero").innerHTML = `
-    <img class="hero-cover" src="${escapeHtml(detail.image)}" alt="${escapeHtml(detail.title)}" />
+    <img class="hero-cover" src="${escapeHtml(toDisplayImageUrl(detail.image))}" alt="${escapeHtml(detail.title)}" data-fallback-img="/assets/feeds/fallback.svg" />
     <h3>${escapeHtml(detail.title)}</h3>
     <p class="muted">${escapeHtml(detail.description || "")}</p>
     <p>开放时间：${escapeHtml(detail.openTime || "-")} ｜ 门票：${escapeHtml(detail.ticket || "-")}</p>
@@ -1459,7 +1496,7 @@ function renderAttractionBlock(city, spots) {
           const selected = state.selectedAttractions[city]?.has(x.name);
           return `
           <div class="mini-spot ${selected ? "selected" : ""}">
-            <img src="${escapeHtml(x.image)}" alt="${escapeHtml(x.name)}" />
+            <img src="${escapeHtml(toDisplayImageUrl(x.image))}" alt="${escapeHtml(x.name)}" data-fallback-img="/assets/feeds/fallback.svg" />
             <div class="mini-spot-body">
               <p><strong>${escapeHtml(x.name)}</strong></p>
               <p class="muted">门票 ${x.ticket} 元 ｜ 交通 ${escapeHtml(x.traffic)} ｜ 建议 ${x.bestHours || 2} 小时</p>
@@ -1559,10 +1596,10 @@ async function loadFoodStep() {
         ${(data.items || [])
           .map((f) => {
             const link = `https://www.douyin.com/search/${encodeURIComponent(city + " " + f.name)}`;
-            const img = f.image || resolveClientSpotImage(f.name, city, "food");
+            const img = toDisplayImageUrl(f.image || resolveClientSpotImage(f.name, city, "food"));
             return `<label class="food-item"><input type="checkbox" data-food-city="${escapeHtml(city)}" data-food-name="${escapeHtml(f.name)}" ${
               state.selectedFoods[city].has(f.name) ? "checked" : ""
-            } /><img class="food-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(f.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" />${escapeHtml(f.name)} ｜ ${
+            } /><img class="food-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(f.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" data-fallback-img="/assets/feeds/fallback.svg" />${escapeHtml(f.name)} ｜ ${
               f.price
             } 元/人 ${renderExternalAnchor(link, "看视频")}</label>`;
           })
