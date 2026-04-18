@@ -75,21 +75,25 @@ body {
   display: none;
   transform: translateX(14%);
   opacity: 0;
+  pointer-events: none;
 }
 
 .route-view.active {
   display: block;
   animation: slide-in 220ms ease-out forwards;
+  pointer-events: auto;
 }
 
 .route-view.leaving-left {
   display: block;
   animation: slide-out-left 220ms ease-in forwards;
+  pointer-events: none;
 }
 
 .route-view.leaving-right {
   display: block;
   animation: slide-out-right 220ms ease-in forwards;
+  pointer-events: none;
 }
 
 @keyframes slide-in {
@@ -647,6 +651,7 @@ label.check input {
 
 .onboarding.hidden {
   display: none;
+  pointer-events: none;
 }
 
 .onboarding-card {

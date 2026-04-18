@@ -246,11 +246,21 @@ function setTab(routeKey) {
   });
 }
 
+function normalizeRouteViewLayers(routeKey = parseRoute(location.pathname).key) {
+  const activeId = viewIdByRoute(routeKey);
+  document.querySelectorAll(".route-view").forEach((view) => {
+    const shouldActive = view.id === activeId;
+    view.classList.toggle("active", shouldActive);
+    if (!shouldActive) view.classList.remove("leaving-left", "leaving-right");
+  });
+}
+
 function switchView(routeKey, direction = "forward") {
   const nextId = viewIdByRoute(routeKey);
   const current = document.querySelector(".route-view.active");
   const next = $(nextId);
   if (!next || current === next) {
+    normalizeRouteViewLayers(routeKey);
     setHeader(routeKey);
     setTab(routeKey);
     return;
@@ -2033,6 +2043,7 @@ async function onRouteEnter(routeKey, payload = {}) {
 async function bootRoute() {
   const parsed = parseRoute(location.pathname);
   history.replaceState({ routeKey: parsed.key, payload: parsed }, "", location.pathname);
+  normalizeRouteViewLayers(parsed.key);
   switchView(parsed.key, "forward");
   await onRouteEnter(parsed.key, parsed);
 }
@@ -2101,6 +2112,9 @@ async function bootstrap() {
   renderCityDataList();
   updateTagMoreUI();
   registerSw();
+  window.addEventListener("pageshow", () => {
+    normalizeRouteViewLayers(parseRoute(location.pathname).key);
+  });
   await bootRoute();
 }
 
