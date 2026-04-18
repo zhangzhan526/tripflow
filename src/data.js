@@ -174,6 +174,68 @@ const extendedFeedCards = [
   }
 ];
 
+const DEFAULT_REMOTE_IMAGE = "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80";
+
+const CITY_IMAGE_MAP = {
+  杭州市: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
+  青岛市: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+  大理市: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
+  哈尔滨市: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
+  北京市: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
+  成都市: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
+  上海市: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
+  厦门市: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
+  重庆市: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+  西安市: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
+  广州市: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+  深圳市: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
+  昆明市: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+  长沙市: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
+};
+
+const SPOT_IMAGE_BY_KEYWORD = {
+  西湖: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=900&q=80",
+  灵隐寺: "https://images.unsplash.com/photo-1603491656337-3b4911479179?auto=format&fit=crop&w=900&q=80",
+  河坊街: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&w=900&q=80",
+  法喜寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
+  八大关: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
+  小麦岛: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
+  栈桥: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+  洱海: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=900&q=80",
+  喜洲古镇: "https://images.unsplash.com/photo-1629978009230-a2f7d6b0f6c1?auto=format&fit=crop&w=900&q=80",
+  双廊: "https://images.unsplash.com/photo-1580193769210-b8d1c049a7d9?auto=format&fit=crop&w=900&q=80",
+  中央大街: "https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=900&q=80",
+  冰雪大世界: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=900&q=80",
+  索菲亚教堂: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=900&q=80",
+  故宫: "https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?auto=format&fit=crop&w=900&q=80",
+  颐和园: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=80",
+  前门: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=900&q=80",
+  熊猫基地: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=900&q=80",
+  宽窄巷子: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=900&q=80",
+  锦里: "https://images.unsplash.com/photo-1600412384817-8e03beccfd91?auto=format&fit=crop&w=900&q=80"
+};
+
+const FOOD_IMAGE_BY_KEYWORD = {
+  西湖醋鱼: "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=900&q=80",
+  龙井虾仁: "https://images.unsplash.com/photo-1565299585323-38174c4a6471?auto=format&fit=crop&w=900&q=80",
+  片儿川: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80",
+  乳扇: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80",
+  饵块: "https://images.unsplash.com/photo-1512058564366-c9e3e0464b5f?auto=format&fit=crop&w=900&q=80",
+  酸辣鱼: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
+  海鲜锅贴: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80",
+  辣炒蛤蜊: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+  青岛啤酒套餐: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=900&q=80",
+  红肠拼盘: "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80",
+  锅包肉: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80",
+  马迭尔冰棍: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80",
+  北京烤鸭: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
+  炸酱面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  卤煮: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
+  成都火锅: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
+  担担面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  甜水面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80"
+};
+
 const detailById = {
   "spot-hz-westlake": {
     description: "西湖周边景点密集，适合 2-3 天轻松游，工作日更适合拍照。",
@@ -781,31 +843,38 @@ function normalizeCityInput(name) {
   return canonicalizeCity(name);
 }
 
-function resolveRemoteImageByCity(city, fallback = "") {
-  const normalized = canonicalizeCity(city);
-  const map = {
-    杭州市: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
-    青岛市: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
-    大理市: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
-    哈尔滨市: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
-    北京市: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
-    成都市: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
-    上海市: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
-    厦门市: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
-    重庆市: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
-    西安市: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
-    广州市: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-    深圳市: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
-    昆明市: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
-    长沙市: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
-  };
-  return map[normalized] || fallback;
+function findImageByKeyword(name, dict = {}) {
+  const text = String(name || "");
+  if (!text) return "";
+  for (const [key, url] of Object.entries(dict)) {
+    if (text.includes(key)) return url;
+  }
+  return "";
 }
 
-function normalizeSpotImage(image, city) {
+function resolveRemoteImageByCity(city, fallback = "") {
+  const normalized = canonicalizeCity(city);
+  return CITY_IMAGE_MAP[normalized] || fallback || DEFAULT_REMOTE_IMAGE;
+}
+
+function resolveSpotImageByName(name, city) {
+  return findImageByKeyword(name, SPOT_IMAGE_BY_KEYWORD) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
+}
+
+function normalizeSpotImage(image, city, spotName = "") {
+  const byName = resolveSpotImageByName(spotName, city);
   const src = String(image || "").trim();
-  if (/^https?:\/\//u.test(src)) return src;
-  return resolveRemoteImageByCity(city, "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80");
+  if (/source\.unsplash\.com/iu.test(src)) return byName;
+  if (/^https?:\/\//u.test(src)) return byName || src;
+  return byName;
+}
+
+function normalizeFoodImage(image, city, foodName = "") {
+  const byName = findImageByKeyword(foodName, FOOD_IMAGE_BY_KEYWORD) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
+  const src = String(image || "").trim();
+  if (/source\.unsplash\.com/iu.test(src)) return byName;
+  if (/^https?:\/\//u.test(src)) return byName || src;
+  return byName;
 }
 
 function buildFallbackSpotDetail(card) {
@@ -838,7 +907,7 @@ function getFeed({ season = "all", kind = "all", tag = "推荐" } = {}) {
   });
   return filtered.map((item) => ({
     ...item,
-    image: normalizeSpotImage(item.image, item.city)
+    image: normalizeSpotImage(item.image, item.city, item.title)
   }));
 }
 
@@ -848,7 +917,7 @@ function getSpotDetail(id) {
   if (!card) return null;
   return {
     ...card,
-    image: normalizeSpotImage(card.image, card.city),
+    image: normalizeSpotImage(card.image, card.city, card.title),
     ...(detailById[id] || buildFallbackSpotDetail(card))
   };
 }
@@ -859,7 +928,7 @@ function getCityAttractions(city) {
     ...base,
     hot: (base.hot || []).map((spot) => ({
       ...spot,
-      image: normalizeSpotImage(spot.image, city)
+      image: normalizeSpotImage(spot.image, city, spot.name)
     }))
   };
 }
@@ -871,7 +940,11 @@ function getCityHotels(city) {
 
 function getCityFoods(city) {
   const normalized = normalizeCityInput(city);
-  return cityFoods[normalized] || cityFoods.default;
+  const list = cityFoods[normalized] || cityFoods.default;
+  return (list || []).map((row) => ({
+    ...row,
+    image: normalizeFoodImage(row.image, normalized || city, row.name)
+  }));
 }
 
 function modeProsCons(mode) {

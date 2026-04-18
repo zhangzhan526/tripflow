@@ -156,6 +156,102 @@ function escapeHtml(input) {
     .replaceAll('"', "&quot;");
 }
 
+const CLIENT_CITY_IMAGE_MAP = {
+  杭州: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
+  青岛: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+  大理: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
+  哈尔滨: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
+  北京: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
+  成都: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
+  上海: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
+  厦门: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
+  重庆: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+  西安: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
+  广州: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+  深圳: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
+  昆明: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+  长沙: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
+};
+
+const CLIENT_SPOT_IMAGE_MAP = {
+  西湖: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=900&q=80",
+  灵隐寺: "https://images.unsplash.com/photo-1603491656337-3b4911479179?auto=format&fit=crop&w=900&q=80",
+  河坊街: "https://images.unsplash.com/photo-1577717903315-1691ae25ab3f?auto=format&fit=crop&w=900&q=80",
+  法喜寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
+  八大关: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
+  小麦岛: "https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=900&q=80",
+  栈桥: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+  洱海: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=900&q=80",
+  喜洲古镇: "https://images.unsplash.com/photo-1629978009230-a2f7d6b0f6c1?auto=format&fit=crop&w=900&q=80",
+  双廊: "https://images.unsplash.com/photo-1580193769210-b8d1c049a7d9?auto=format&fit=crop&w=900&q=80",
+  中央大街: "https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=900&q=80",
+  冰雪大世界: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=900&q=80",
+  故宫: "https://images.unsplash.com/photo-1605833556294-ea5c7a74f57d?auto=format&fit=crop&w=900&q=80",
+  颐和园: "https://images.unsplash.com/photo-1508804185872-d7badad00f7d?auto=format&fit=crop&w=900&q=80",
+  熊猫基地: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?auto=format&fit=crop&w=900&q=80",
+  宽窄巷子: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=900&q=80",
+  锦里: "https://images.unsplash.com/photo-1600412384817-8e03beccfd91?auto=format&fit=crop&w=900&q=80"
+};
+
+const CLIENT_FOOD_IMAGE_MAP = {
+  西湖醋鱼: "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=900&q=80",
+  龙井虾仁: "https://images.unsplash.com/photo-1565299585323-38174c4a6471?auto=format&fit=crop&w=900&q=80",
+  片儿川: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80",
+  乳扇: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=900&q=80",
+  饵块: "https://images.unsplash.com/photo-1512058564366-c9e3e0464b5f?auto=format&fit=crop&w=900&q=80",
+  酸辣鱼: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
+  海鲜锅贴: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80",
+  辣炒蛤蜊: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80",
+  青岛啤酒套餐: "https://images.unsplash.com/photo-1608270586620-248524c67de9?auto=format&fit=crop&w=900&q=80",
+  红肠拼盘: "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80",
+  锅包肉: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80",
+  马迭尔冰棍: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80",
+  北京烤鸭: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
+  炸酱面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  卤煮: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
+  成都火锅: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
+  担担面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  甜水面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80"
+};
+
+function resolveClientCityImage(city) {
+  const key = normalizeRegionText(city || "");
+  const hit = Object.entries(CLIENT_CITY_IMAGE_MAP).find(([k]) => normalizeRegionText(k) === key);
+  return hit?.[1] || "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80";
+}
+
+function resolveClientSpotImage(name, city, kind = "spot") {
+  const text = String(name || "");
+  const map = kind === "food" ? CLIENT_FOOD_IMAGE_MAP : CLIENT_SPOT_IMAGE_MAP;
+  const hit = Object.entries(map).find(([k]) => text.includes(k));
+  return hit?.[1] || resolveClientCityImage(city);
+}
+
+function normalizeExternalUrl(rawUrl) {
+  const raw = String(rawUrl || "").trim();
+  if (!raw) return "";
+  try {
+    const u = new URL(raw, location.origin);
+    if (!/^https?:$/u.test(u.protocol)) return "";
+    if (/xiaohongshu\.com$/iu.test(u.hostname) || /\.xiaohongshu\.com$/iu.test(u.hostname)) {
+      const keyword = u.searchParams.get("keyword") || u.searchParams.get("q") || "";
+      return keyword ? `https://www.xiaohongshu.com/search_result?keyword=${encodeURIComponent(keyword)}` : "https://www.xiaohongshu.com/";
+    }
+    return u.toString();
+  } catch (_err) {
+    return "";
+  }
+}
+
+function renderExternalAnchor(url, label) {
+  const safeUrl = normalizeExternalUrl(url);
+  if (!safeUrl) return "";
+  const isXhs = /xiaohongshu\.com/iu.test(safeUrl);
+  const target = isXhs ? "_self" : "_blank";
+  const rel = isXhs ? "" : ' rel="noopener"';
+  return `<a href="${escapeHtml(safeUrl)}" target="${target}"${rel}>${escapeHtml(label)}</a>`;
+}
+
 async function api(path, options = {}) {
   const res = await fetch(path, {
     headers: { "Content-Type": "application/json" },
@@ -767,7 +863,7 @@ function renderSpotVideos(detail) {
     ${
       videos.length
         ? `<div class="inline-links">${videos
-            .map((v) => `<a href="${escapeHtml(v.url)}" target="_blank" rel="noreferrer">${escapeHtml(v.platform)} - ${escapeHtml(v.title)}</a>`)
+            .map((v) => renderExternalAnchor(v.url, `${v.platform} - ${v.title}`))
             .join("")}</div>`
         : '<p class="empty-state">\u6682\u65e0\u89c6\u9891\u94fe\u63a5\u3002</p>'
     }
@@ -1067,7 +1163,7 @@ function toSimpleSpot(name, city, kind) {
     bestHours: kind === "food" ? 1.5 : 2,
     traffic: "地铁/公交可达",
     budgetHint: kind === "food" ? "餐饮消费约 60-180 元" : "游玩消费约 0-120 元",
-    image: `https://source.unsplash.com/900x600/?${encodeURIComponent(`${city} ${name}`)}`,
+    image: resolveClientSpotImage(name, city, kind === "food" ? "food" : "spot"),
     videos: [
       {
         platform: "抖音",
@@ -1093,12 +1189,6 @@ function enrichCityAttractions(city, categories = {}) {
   (categories.food || []).forEach((name) => pushUnique(toSimpleSpot(name, city, "food")));
   (state.customAttractionsByCity[city] || []).forEach(pushUnique);
 
-  const fallbackImages = [
-    "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=900&q=80",
-    "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
-    "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=900&q=80"
-  ];
   const templates = ["城市地标", "高口碑街区", "拍照机位点", "夜游路线", "周边自然景观", "本地美食聚集区"];
   const minCount = 10;
   let idx = 0;
@@ -1110,7 +1200,7 @@ function enrichCityAttractions(city, categories = {}) {
       bestHours: 2 + (idx % 3) * 0.5,
       traffic: "地铁/公交可达",
       budgetHint: "建议预算 40-180 元/人",
-      image: fallbackImages[idx % fallbackImages.length],
+      image: resolveClientSpotImage(name, city),
       videos: [{ platform: "抖音", title: `${name}参考`, url: `https://www.douyin.com/search/${encodeURIComponent(name)}` }]
     });
     idx += 1;
@@ -1126,7 +1216,7 @@ function renderVideoCards(city, spots) {
       <h3>${escapeHtml(city)} · 短视频参考</h3>
       ${videos
         .slice(0, 8)
-        .map((v) => `<p>${escapeHtml(v.platform)} ｜ ${escapeHtml(v.spot)}：<a href="${escapeHtml(v.url)}" target="_blank" rel="noreferrer">${escapeHtml(v.title)}</a></p>`)
+        .map((v) => `<p>${escapeHtml(v.platform)} ｜ ${escapeHtml(v.spot)}：${renderExternalAnchor(v.url, v.title)}</p>`)
         .join("")}
     </article>
   `;
@@ -1149,7 +1239,7 @@ function renderAttractionBlock(city, spots) {
               <p class="muted">${escapeHtml(x.budgetHint || "预算提示待计算")}</p>
               <div class="inline-links">
                 ${(x.videos || [])
-                  .map((v) => `<a href="${escapeHtml(v.url)}" target="_blank" rel="noreferrer">${escapeHtml(v.platform)} · ${escapeHtml(v.title)}</a>`)
+                  .map((v) => renderExternalAnchor(v.url, `${v.platform} · ${v.title}`))
                   .join("")}
               </div>
               <label class="check"><input type="checkbox" data-city="${escapeHtml(city)}" data-name="${escapeHtml(x.name)}" ${
@@ -1184,7 +1274,7 @@ function inferSpotIntent(text, city) {
     : hasPhoto
     ? "建议预算 40-160 元/人"
     : "建议预算 30-140 元/人";
-  const image = `https://source.unsplash.com/900x600/?${encodeURIComponent(`${city} ${name}`)}`;
+  const image = resolveClientSpotImage(name, city, hasFood ? "food" : "spot");
 
   return {
     name,
@@ -1242,12 +1332,12 @@ async function loadFoodStep() {
         ${(data.items || [])
           .map((f) => {
             const link = `https://www.douyin.com/search/${encodeURIComponent(city + " " + f.name)}`;
-            const img = f.image || `https://source.unsplash.com/640x420/?${encodeURIComponent(`${city} ${f.name} food`)}`;
+            const img = f.image || resolveClientSpotImage(f.name, city, "food");
             return `<label class="food-item"><input type="checkbox" data-food-city="${escapeHtml(city)}" data-food-name="${escapeHtml(f.name)}" ${
               state.selectedFoods[city].has(f.name) ? "checked" : ""
             } /><img class="food-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(f.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" />${escapeHtml(f.name)} ｜ ${
               f.price
-            } 元/人 <a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">看视频</a></label>`;
+            } 元/人 ${renderExternalAnchor(link, "看视频")}</label>`;
           })
           .join("")}
       </article>
@@ -1278,13 +1368,13 @@ async function loadHotelStep() {
             const videoLink =
               h.videoUrl ||
               `https://www.douyin.com/search/${encodeURIComponent(`${city} ${h.name} 酒店`)}`;
-            return `<button class="hotel-card ${active ? "selected" : ""}" data-hotel-city="${escapeHtml(city)}" data-hotel-name="${escapeHtml(
-              h.name
-            )}" data-hotel-price="${h.price}"><strong>${escapeHtml(h.name)}</strong> ｜ ${h.price} 元/晚 <span class="tag">${(h.tags || [])
+            return `<article class="hotel-card ${active ? "selected" : ""}"><strong>${escapeHtml(h.name)}</strong> ｜ ${h.price} 元/晚 <span class="tag">${(h.tags || [])
               .map(escapeHtml)
-              .join(" ")}</span><p class="muted">${escapeHtml(reason)}</p><div class="inline-links"><a href="${escapeHtml(
-              videoLink
-            )}" target="_blank" rel="noreferrer">查看短视频介绍</a></div></button>`;
+              .join(" ")}</span><p class="muted">${escapeHtml(reason)}</p><div class="row wrap"><button class="btn ${
+              active ? "selected" : "ghost"
+            }" type="button" data-hotel-city="${escapeHtml(city)}" data-hotel-name="${escapeHtml(
+              h.name
+            )}" data-hotel-price="${h.price}">选择此酒店</button>${renderExternalAnchor(videoLink, "查看短视频介绍")}</div></article>`;
           })
           .join("")}
       </article>
