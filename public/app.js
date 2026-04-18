@@ -180,18 +180,18 @@ function escapeHtml(input) {
 }
 
 const CLIENT_CITY_IMAGE_MAP = {
-  杭州: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
-  青岛: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+  杭州: "https://commons.wikimedia.org/wiki/Special:FilePath/West%20Lake%20IMG%208757%20hangzhou%20panorama.jpg",
+  青岛: "https://commons.wikimedia.org/wiki/Special:FilePath/Qingdao%20Beach%20No.%202.jpg",
   大理: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
-  哈尔滨: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
+  哈尔滨: "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin%20ice%20and%20snow%20world%2C%20temple.jpg",
   北京: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
   成都: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
-  上海: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
-  厦门: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
+  上海: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  厦门: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
   重庆: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
   西安: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
   广州: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-  深圳: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
+  深圳: "https://commons.wikimedia.org/wiki/Special:FilePath/Skyline%20of%20Shenzhen.jpg",
   昆明: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
   长沙: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
 };
@@ -241,14 +241,22 @@ const CLIENT_SPOT_IMAGE_MAP = {
 };
 
 const CLIENT_SPOT_IMAGE_EXTRA_MAP = {
-  外滩: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
-  陆家嘴: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
-  深圳湾: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80",
-  西湖春日慢游: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
-  海岸线日落打卡: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
-  洱海环线轻自驾: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
-  北京中轴线城市漫游: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
-  成都慢节奏烟火旅行: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
+  外滩: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  陆家嘴: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  外滩夜景轻漫游: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  深圳湾: "https://commons.wikimedia.org/wiki/Special:FilePath/Skyline%20of%20Shenzhen.jpg",
+  海湾城市走读路线: "https://commons.wikimedia.org/wiki/Special:FilePath/Skyline%20of%20Shenzhen.jpg",
+  鼓浪屿海风漫行: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
+  西湖春日慢游: "https://commons.wikimedia.org/wiki/Special:FilePath/West%20Lake%20IMG%208757%20hangzhou%20panorama.jpg",
+  海岸线日落打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Qingdao%20Beach%20No.%202.jpg",
+  洱海环线轻自驾: "https://commons.wikimedia.org/wiki/Special:FilePath/Erhai%20Lake%20Dali%2016.JPG",
+  冰雪城市夜游: "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin%20ice%20and%20snow%20world%2C%20temple.jpg",
+  北京中轴线城市漫游: "https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City_Beijing_Shenwumen_Gate.JPG",
+  成都慢节奏烟火旅行: "https://commons.wikimedia.org/wiki/Special:FilePath/Jinli%20Street%20-%20Chengdu.jpg",
+  城墙与古都文化打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Xi%27an%20City%20Wall%20%289912110523%29.jpg",
+  珠江夜航与老城美食: "https://commons.wikimedia.org/wiki/Special:FilePath/Canton%20Tower%20at%20night.jpg",
+  高原花城轻松散步: "https://commons.wikimedia.org/wiki/Special:FilePath/55524-Kunming-Green-Lake-Park.jpg",
+  夜市与城市烟火打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Orange%20Isle%2C%20Changsha%203.jpg",
   夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
   中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
   拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
@@ -257,7 +265,7 @@ const CLIENT_SPOT_IMAGE_EXTRA_MAP = {
   东湖: "https://images.unsplash.com/photo-1437623889155-075d40e2e59f?auto=format&fit=crop&w=900&q=80",
   天津之眼: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
   五大道: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80",
-  鼓浪屿: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+  鼓浪屿: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
   南普陀寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
   洪崖洞: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=900&q=80",
   解放碑: "https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=900&q=80",
@@ -288,11 +296,11 @@ const CLIENT_FOOD_IMAGE_MAP = {
   红肠拼盘: "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80",
   锅包肉: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80",
   马迭尔冰棍: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80",
-  北京烤鸭: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
-  炸酱面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  北京烤鸭: "https://commons.wikimedia.org/wiki/Special:FilePath/Peking%20Duck.jpg",
+  炸酱面: "https://commons.wikimedia.org/wiki/Special:FilePath/Zhajiangmian%20Noodles%2C%20Fresh%20Noodles%2C%20Paris%20001.jpg",
   卤煮: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
-  成都火锅: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
-  担担面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  成都火锅: "https://commons.wikimedia.org/wiki/Special:FilePath/Hotpot.jpg",
+  担担面: "https://commons.wikimedia.org/wiki/Special:FilePath/Dandan%20Noodles.jpg",
   甜水面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80"
 };
 
@@ -332,7 +340,9 @@ function resolveClientCityImage(city) {
 function resolveClientSpotImage(name, city, kind = "spot") {
   const text = String(name || "");
   const map = kind === "food" ? CLIENT_FOOD_IMAGE_ALL : CLIENT_SPOT_IMAGE_ALL;
-  const hit = Object.entries(map).find(([k]) => text.includes(k));
+  const hit = Object.entries(map)
+    .filter(([k]) => k && text.includes(k))
+    .sort((a, b) => b[0].length - a[0].length)[0];
   return hit?.[1] || resolveClientCityImage(city);
 }
 
@@ -390,11 +400,81 @@ function uniq(arr) {
   return [...new Set(arr)];
 }
 
+const CITY_GEO_COORDS = {
+  北京: [39.9042, 116.4074],
+  上海: [31.2304, 121.4737],
+  广州: [23.1291, 113.2644],
+  深圳: [22.5431, 114.0579],
+  杭州: [30.2741, 120.1551],
+  南京: [32.0603, 118.7969],
+  苏州: [31.2989, 120.5853],
+  无锡: [31.4900, 120.3124],
+  常州: [31.8107, 119.9737],
+  宁波: [29.8683, 121.5440],
+  厦门: [24.4798, 118.0894],
+  福州: [26.0745, 119.2965],
+  泉州: [24.8741, 118.6757],
+  深圳湾: [22.5050, 113.9345],
+  珠海: [22.2710, 113.5767],
+  佛山: [23.0215, 113.1214],
+  东莞: [23.0207, 113.7518],
+  惠州: [23.1118, 114.4168],
+  中山: [22.5176, 113.3928],
+  成都: [30.5728, 104.0668],
+  重庆: [29.5630, 106.5516],
+  西安: [34.3416, 108.9398],
+  青岛: [36.0671, 120.3826],
+  济南: [36.6512, 117.1201],
+  武汉: [30.5928, 114.3055],
+  长沙: [28.2282, 112.9388],
+  昆明: [25.0389, 102.7183],
+  大理: [25.6075, 100.2676],
+  哈尔滨: [45.7569, 126.6425],
+  长春: [43.8171, 125.3235],
+  沈阳: [41.8057, 123.4315],
+  天津: [39.3434, 117.3616],
+  郑州: [34.7473, 113.6249],
+  合肥: [31.8206, 117.2290],
+  南昌: [28.6829, 115.8582],
+  桂林: [25.2736, 110.2900],
+  三亚: [18.2528, 109.5119],
+  海口: [20.0442, 110.1983]
+};
+
+function toRadians(deg) {
+  return (deg * Math.PI) / 180;
+}
+
+function geoDistanceKm(a, b) {
+  const [lat1, lon1] = a;
+  const [lat2, lon2] = b;
+  const earthRadiusKm = 6371;
+  const dLat = toRadians(lat2 - lat1);
+  const dLon = toRadians(lon2 - lon1);
+  const rLat1 = toRadians(lat1);
+  const rLat2 = toRadians(lat2);
+  const h =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(rLat1) * Math.cos(rLat2) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  return 2 * earthRadiusKm * Math.asin(Math.sqrt(h));
+}
+
+function findGeoByName(name) {
+  const key = normalizeRegionText(name);
+  if (!key) return null;
+  if (CITY_GEO_COORDS[key]) return CITY_GEO_COORDS[key];
+  const fuzzyKey = Object.keys(CITY_GEO_COORDS).find((k) => key.includes(k) || k.includes(key));
+  return fuzzyKey ? CITY_GEO_COORDS[fuzzyKey] : null;
+}
+
 function estimateDistanceByName(from, to) {
   const a = normalizeRegionText(from);
   const b = normalizeRegionText(to);
   if (!a || !b) return 300;
-  const base = 200 + Math.abs(a.charCodeAt(0) - b.charCodeAt(0)) * 7;
+  const geoA = findGeoByName(from);
+  const geoB = findGeoByName(to);
+  if (geoA && geoB) return Math.max(60, Math.round(geoDistanceKm(geoA, geoB)));
+  const base = 220 + Math.abs(a.charCodeAt(0) - b.charCodeAt(0)) * 6;
   const provincePenalty = isProvinceLike(from) || isProvinceLike(to) ? 260 : 0;
   return Math.max(120, Math.min(1800, base + provincePenalty));
 }
@@ -1729,6 +1809,18 @@ function renderPlan(result, options = {}) {
   if (result.carSuggestion?.shouldSuggest) alerts.push(`建议在城市内使用租车中转：${result.carSuggestion.reasons.join("、")}`);
   const over = (result.budgetAlerts || []).filter((x) => x.overBudget);
   if (over.length) alerts.push(`预算提醒：${over.map((x) => `${modeLabel(x.mode)}超出${x.overBy}元`).join("；")}`);
+  const summaryCities = [...(result.summary?.cities || [])];
+  const departure = summaryCities[0] || "";
+  let destinations = summaryCities.slice(1);
+  if (destinations.length && normalizeRegionText(destinations[destinations.length - 1]) === normalizeRegionText(departure)) {
+    destinations = destinations.slice(0, -1);
+  }
+  const pace = estimateTripPace(departure, destinations, Number(result.summary?.days) || 1);
+  if (pace?.tight) {
+    alerts.push(
+      `行程偏紧：跨城通勤约 ${pace.transitHours} 小时，建议至少 ${pace.recommendedDays} 天，或减少 1-2 个目标城市。`
+    );
+  }
   $("alertBox").innerHTML = alerts.map((x) => `<div class="alert"><span class="warn">提醒</span> ${escapeHtml(x)}</div>`).join("");
 
   $("reminderList").innerHTML = (result.reminders || []).map((x) => `<article class="card"><p class="muted">${escapeHtml(x)}</p></article>`).join("");
@@ -1907,29 +1999,227 @@ function routeDistanceScore(departure, orderedCities) {
   return Math.round(total);
 }
 
+const CITY_CLUSTER_HINTS = Object.entries({
+  长三角: ["上海", "苏州", "杭州", "南京", "无锡", "宁波", "常州", "镇江", "南通", "嘉兴", "湖州", "绍兴", "台州", "温州"],
+  珠三角: ["广州", "深圳", "珠海", "佛山", "东莞", "中山", "惠州", "江门", "肇庆", "清远"],
+  海峡西岸: ["厦门", "福州", "泉州", "漳州", "莆田", "宁德"],
+  京津冀: ["北京", "天津", "石家庄", "唐山", "秦皇岛", "保定", "廊坊", "沧州", "邯郸"],
+  成渝: ["成都", "重庆", "绵阳", "德阳", "资阳", "遂宁"],
+  中部干线: ["武汉", "长沙", "郑州", "合肥", "南昌", "太原", "洛阳"],
+  山东半岛: ["青岛", "济南", "烟台", "威海", "潍坊", "淄博", "济宁", "泰安"]
+}).reduce((acc, [cluster, cities]) => {
+  for (const city of cities) acc[normalizeRegionText(city)] = cluster;
+  return acc;
+}, {});
+
+function resolveClusterKey(city) {
+  const key = normalizeRegionText(city);
+  if (!key) return "";
+  if (CITY_CLUSTER_HINTS[key]) return CITY_CLUSTER_HINTS[key];
+  const fuzzy = Object.keys(CITY_CLUSTER_HINTS).find((k) => key.includes(k) || k.includes(key));
+  return fuzzy ? CITY_CLUSTER_HINTS[fuzzy] : `single:${key}`;
+}
+
+function minDistancePointToCities(point, cities) {
+  let min = Number.POSITIVE_INFINITY;
+  for (const city of cities || []) {
+    min = Math.min(min, estimateDistanceByName(point, city));
+  }
+  return Number.isFinite(min) ? min : 9999;
+}
+
+function minDistanceBetweenCitySets(aCities, bCities) {
+  let min = Number.POSITIVE_INFINITY;
+  for (const a of aCities || []) {
+    for (const b of bCities || []) {
+      min = Math.min(min, estimateDistanceByName(a, b));
+    }
+  }
+  return Number.isFinite(min) ? min : 9999;
+}
+
+function buildDestinationGroups(departure, cities) {
+  const grouped = new Map();
+  for (const city of cities || []) {
+    const clusterKey = resolveClusterKey(city) || `single:${normalizeRegionText(city)}`;
+    if (!grouped.has(clusterKey)) grouped.set(clusterKey, []);
+    grouped.get(clusterKey).push(city);
+  }
+  return [...grouped.entries()].map(([clusterKey, members]) => ({
+    clusterKey,
+    cities: members,
+    avgDistanceFromDeparture:
+      members.reduce((sum, city) => sum + estimateDistanceByName(departure, city), 0) / Math.max(1, members.length)
+  }));
+}
+
+function estimateGroupOrderScore(departure, groups) {
+  const route = [...(groups || [])];
+  if (!route.length) return 0;
+  let score = minDistancePointToCities(departure, route[0].cities);
+  for (let i = 0; i < route.length - 1; i += 1) {
+    score += minDistanceBetweenCitySets(route[i].cities, route[i + 1].cities);
+  }
+  return score;
+}
+
+function buildGroupOrderApprox(departure, groups, { preferFarFirst = false } = {}) {
+  if (!groups?.length) return [];
+  const remain = [...groups];
+  const firstIdx = preferFarFirst
+    ? remain.reduce((best, g, idx, arr) => (g.avgDistanceFromDeparture > arr[best].avgDistanceFromDeparture ? idx : best), 0)
+    : remain.reduce((best, g, idx, arr) => (g.avgDistanceFromDeparture < arr[best].avgDistanceFromDeparture ? idx : best), 0);
+  const ordered = [remain.splice(firstIdx, 1)[0]];
+
+  while (remain.length) {
+    const trendSorted = [...remain].sort((a, b) =>
+      preferFarFirst ? b.avgDistanceFromDeparture - a.avgDistanceFromDeparture : a.avgDistanceFromDeparture - b.avgDistanceFromDeparture
+    );
+    const trendCandidates = trendSorted.slice(0, Math.min(3, trendSorted.length));
+    const current = ordered[ordered.length - 1];
+    let best = trendCandidates[0];
+    let bestScore = Number.POSITIVE_INFINITY;
+    for (const candidate of trendCandidates) {
+      const transition = minDistanceBetweenCitySets(current.cities, candidate.cities);
+      const trendPenalty = Math.abs(candidate.avgDistanceFromDeparture - current.avgDistanceFromDeparture) * 0.08;
+      const score = transition + trendPenalty;
+      if (score < bestScore) {
+        best = candidate;
+        bestScore = score;
+      }
+    }
+    ordered.push(best);
+    const removeIdx = remain.findIndex((g) => g.clusterKey === best.clusterKey && g.cities.join("|") === best.cities.join("|"));
+    remain.splice(removeIdx, 1);
+  }
+
+  let bestOrder = [...ordered];
+  let bestScore = estimateGroupOrderScore(departure, bestOrder);
+  let improved = true;
+  while (improved) {
+    improved = false;
+    for (let i = 1; i < bestOrder.length - 1; i += 1) {
+      for (let j = i + 1; j < bestOrder.length; j += 1) {
+        const trial = [...bestOrder];
+        [trial[i], trial[j]] = [trial[j], trial[i]];
+        const trialScore = estimateGroupOrderScore(departure, trial);
+        if (trialScore + 30 < bestScore) {
+          bestOrder = trial;
+          bestScore = trialScore;
+          improved = true;
+        }
+      }
+    }
+  }
+  return bestOrder;
+}
+
+function improveOpenPathByTwoOpt(start, cities) {
+  let best = [...(cities || [])];
+  let bestDist = routeDistanceScore(start, best);
+  let improved = true;
+  while (improved) {
+    improved = false;
+    for (let i = 0; i < best.length - 1; i += 1) {
+      for (let j = i + 1; j < best.length; j += 1) {
+        const trial = [...best.slice(0, i), ...best.slice(i, j + 1).reverse(), ...best.slice(j + 1)];
+        const trialDist = routeDistanceScore(start, trial);
+        if (trialDist + 10 < bestDist) {
+          best = trial;
+          bestDist = trialDist;
+          improved = true;
+        }
+      }
+    }
+  }
+  return best;
+}
+
+function solveGroupInnerOrder(start, groupCities, { preferFarFirst = false } = {}) {
+  if (!groupCities?.length) return [];
+  const remain = [...groupCities];
+  const out = [];
+  let cursor = start;
+  while (remain.length) {
+    const sorter = preferFarFirst ? (a, b) => b - a : (a, b) => a - b;
+    remain.sort((a, b) => sorter(estimateDistanceByName(cursor, a), estimateDistanceByName(cursor, b)));
+    const next = remain.shift();
+    out.push(next);
+    cursor = next;
+  }
+  return improveOpenPathByTwoOpt(start, out);
+}
+
+function buildConstrainedTspOrder(departure, destinations, { preferFarFirst = false } = {}) {
+  const groups = buildDestinationGroups(departure, destinations);
+  const orderedGroups = buildGroupOrderApprox(departure, groups, { preferFarFirst });
+  const out = [];
+  let cursor = departure;
+  for (const group of orderedGroups) {
+    const groupOrder = solveGroupInnerOrder(cursor, group.cities, { preferFarFirst });
+    out.push(...groupOrder);
+    cursor = groupOrder[groupOrder.length - 1] || cursor;
+  }
+  return out;
+}
+
+function estimateTripPace(departure, orderedCities, days) {
+  const validDays = Math.max(1, Number(days) || 1);
+  const route = [departure, ...(orderedCities || [])].filter(Boolean);
+  if (!String(departure || "").trim() || route.length < 2) return null;
+  const totalDistance = routeDistanceScore(departure, orderedCities);
+  const segments = Math.max(1, route.length - 1);
+  const transitHours = Number((totalDistance / 260 + segments * 1.1).toFixed(1));
+  const playHours = Number(Math.max(0, validDays * 9 - transitHours).toFixed(1));
+  const perCityPlayHours = Number((playHours / Math.max(1, orderedCities.length)).toFixed(1));
+  const recommendedDays = Math.max(2, Math.ceil(transitHours / 6 + orderedCities.length * 0.85));
+  const tight = validDays < recommendedDays || perCityPlayHours < 4.5;
+  const severe = validDays + 1 < recommendedDays || perCityPlayHours < 3.2;
+  return {
+    totalDistance,
+    transitHours,
+    playHours,
+    perCityPlayHours,
+    recommendedDays,
+    tight,
+    severe
+  };
+}
+
 function suggestRouteOrders(departure, destinations) {
   const dep = canonicalCityInput(departure);
   const uniqueDest = uniq((destinations || []).map(canonicalCityInput).filter(Boolean));
   if (!dep || uniqueDest.length < 3) return [];
 
-  const byNearFirst = [...uniqueDest].sort((a, b) => estimateDistanceByName(dep, a) - estimateDistanceByName(dep, b));
-  const byFarFirst = [...byNearFirst].reverse();
+  const byNearFirst = buildConstrainedTspOrder(dep, uniqueDest, { preferFarFirst: false });
+  let byFarFirst = buildConstrainedTspOrder(dep, uniqueDest, { preferFarFirst: true });
+  if (byFarFirst.join("|") === byNearFirst.join("|")) byFarFirst = [...byNearFirst].reverse();
+
   const nearDistance = routeDistanceScore(dep, byNearFirst);
   const farDistance = routeDistanceScore(dep, byFarFirst);
-  return [
+  return uniq([
     {
       title: "先近后远",
       order: byNearFirst,
-      hint: `先走近程城市，减少前半程无效通勤`,
+      hint: `按同圈层成组并做近似 TSP 排序，优先降低总里程`,
       totalDistance: nearDistance
     },
     {
       title: "先远后近",
       order: byFarFirst,
-      hint: `先完成远程段，再回到近程城市收尾`,
+      hint: `先处理远程圈层，再按近似 TSP 收束回近程，降低后段疲劳`,
       totalDistance: farDistance
     }
-  ];
+  ].map((x) => `${x.title}|${x.order.join("|")}`))
+    .map((key) => {
+      const [title, ...order] = key.split("|");
+      return {
+        title,
+        order,
+        hint: title === "先近后远" ? "按同圈层成组并做近似 TSP 排序，优先降低总里程" : "先处理远程圈层，再按近似 TSP 收束回近程，降低后段疲劳",
+        totalDistance: routeDistanceScore(dep, order)
+      };
+    });
 }
 
 function renderRouteOrderHint() {
@@ -1938,12 +2228,25 @@ function renderRouteOrderHint() {
   const departure = $("departureCity")?.value?.trim() || "";
   const suggestions = suggestRouteOrders(departure, state.destinationCities);
   state.routeOrderSuggestions = suggestions;
+  const days = Number($("days")?.value) || 1;
+  const paceOrder = suggestions[0]?.order?.length ? suggestions[0].order : state.destinationCities;
+  const pace = estimateTripPace(departure, paceOrder, days);
+  const paceWarning = pace?.tight
+    ? `
+      <article class="route-order-item">
+        <p><strong>行程紧凑提醒</strong> ｜ 预计跨城通勤 ${pace.transitHours} 小时</p>
+        <p class="muted">当前 ${days} 天、${paceOrder.length} 个目标城市，人均可游玩约 ${pace.perCityPlayHours} 小时/城。</p>
+        <p class="muted">${pace.severe ? "建议优先增加天数，避免大部分时间耗在通勤。" : "建议增加天数或减少 1-2 个目标城市，体验会更从容。"} 推荐至少 ${pace.recommendedDays} 天。</p>
+      </article>
+    `
+    : "";
   if (!suggestions.length) {
-    box.innerHTML = '<h3>顺序优化建议</h3><p class="empty-state">当目标城市达到 3 个及以上时，会给出减少折返的建议。</p>';
+    box.innerHTML = `<h3>顺序优化建议</h3>${paceWarning}<p class="empty-state">当目标城市达到 3 个及以上时，会给出减少折返的建议。</p>`;
     return;
   }
   box.innerHTML = `
     <h3>顺序优化建议</h3>
+    ${paceWarning}
     <p class="muted">当前路线：${escapeHtml([departure, ...state.destinationCities].filter(Boolean).join(" → "))}</p>
     ${suggestions
       .map(
@@ -2102,6 +2405,7 @@ function bindPlanActions() {
   });
   $("days")?.addEventListener("input", () => {
     syncStep1Dates("days");
+    renderRouteOrderHint();
     markStep1DirtyIfNeeded();
   });
   $("endDate")?.addEventListener("change", () => {

@@ -177,18 +177,18 @@ const extendedFeedCards = [
 const DEFAULT_REMOTE_IMAGE = "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=1200&q=80";
 
 const CITY_IMAGE_MAP = {
-  杭州市: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=1200&q=80",
-  青岛市: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+  杭州市: "https://commons.wikimedia.org/wiki/Special:FilePath/West%20Lake%20IMG%208757%20hangzhou%20panorama.jpg",
+  青岛市: "https://commons.wikimedia.org/wiki/Special:FilePath/Qingdao%20Beach%20No.%202.jpg",
   大理市: "https://images.unsplash.com/photo-1549880181-56a44cf4a9a5?auto=format&fit=crop&w=1200&q=80",
-  哈尔滨市: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
+  哈尔滨市: "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin%20ice%20and%20snow%20world%2C%20temple.jpg",
   北京市: "https://images.unsplash.com/photo-1599571234909-29ed5d1321d6?auto=format&fit=crop&w=1200&q=80",
   成都市: "https://images.unsplash.com/photo-1536632087471-3cf3f2986328?auto=format&fit=crop&w=1200&q=80",
-  上海市: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
-  厦门市: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
+  上海市: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  厦门市: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
   重庆市: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
   西安市: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=1200&q=80",
   广州市: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
-  深圳市: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
+  深圳市: "https://commons.wikimedia.org/wiki/Special:FilePath/Skyline%20of%20Shenzhen.jpg",
   昆明市: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
   长沙市: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
 };
@@ -240,11 +240,22 @@ const SPOT_IMAGE_BY_KEYWORD = {
 };
 
 const SPOT_IMAGE_EXTRA_BY_KEYWORD = {
-  外滩: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
-  陆家嘴: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
-  外滩夜景轻漫游: "https://images.unsplash.com/photo-1537519646099-335112f03225?auto=format&fit=crop&w=1200&q=80",
-  山城夜游与轻轨穿楼: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
-  鼓浪屿海风漫行: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+  外滩: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  陆家嘴: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  外滩夜景轻漫游: "https://commons.wikimedia.org/wiki/Special:FilePath/Shanghai%20The%20Bund%20%2822416477671%29.jpg",
+  海湾城市走读路线: "https://commons.wikimedia.org/wiki/Special:FilePath/Skyline%20of%20Shenzhen.jpg",
+  山城夜游与轻轨穿楼: "https://commons.wikimedia.org/wiki/Special:FilePath/Hongya%20cave%20nightview%20in%20Chongqing.jpg",
+  鼓浪屿海风漫行: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
+  西湖春日慢游: "https://commons.wikimedia.org/wiki/Special:FilePath/West%20Lake%20IMG%208757%20hangzhou%20panorama.jpg",
+  海岸线日落打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Qingdao%20Beach%20No.%202.jpg",
+  洱海环线轻自驾: "https://commons.wikimedia.org/wiki/Special:FilePath/Erhai%20Lake%20Dali%2016.JPG",
+  冰雪城市夜游: "https://commons.wikimedia.org/wiki/Special:FilePath/Harbin%20ice%20and%20snow%20world%2C%20temple.jpg",
+  北京中轴线城市漫游: "https://commons.wikimedia.org/wiki/Special:FilePath/Forbidden_City_Beijing_Shenwumen_Gate.JPG",
+  成都慢节奏烟火旅行: "https://commons.wikimedia.org/wiki/Special:FilePath/Jinli%20Street%20-%20Chengdu.jpg",
+  城墙与古都文化打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Xi%27an%20City%20Wall%20%289912110523%29.jpg",
+  珠江夜航与老城美食: "https://commons.wikimedia.org/wiki/Special:FilePath/Canton%20Tower%20at%20night.jpg",
+  高原花城轻松散步: "https://commons.wikimedia.org/wiki/Special:FilePath/55524-Kunming-Green-Lake-Park.jpg",
+  夜市与城市烟火打卡: "https://commons.wikimedia.org/wiki/Special:FilePath/Orange%20Isle%2C%20Changsha%203.jpg",
   夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
   中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
   拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
@@ -253,7 +264,7 @@ const SPOT_IMAGE_EXTRA_BY_KEYWORD = {
   东湖: "https://images.unsplash.com/photo-1437623889155-075d40e2e59f?auto=format&fit=crop&w=900&q=80",
   天津之眼: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
   五大道: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80",
-  鼓浪屿: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+  鼓浪屿: "https://commons.wikimedia.org/wiki/Special:FilePath/Gulangyu%20Island%2CXiamen%20City.JPG",
   南普陀寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
   洪崖洞: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=900&q=80",
   解放碑: "https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=900&q=80",
@@ -284,11 +295,11 @@ const FOOD_IMAGE_BY_KEYWORD = {
   红肠拼盘: "https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80",
   锅包肉: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80",
   马迭尔冰棍: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80",
-  北京烤鸭: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
-  炸酱面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  北京烤鸭: "https://commons.wikimedia.org/wiki/Special:FilePath/Peking%20Duck.jpg",
+  炸酱面: "https://commons.wikimedia.org/wiki/Special:FilePath/Zhajiangmian%20Noodles%2C%20Fresh%20Noodles%2C%20Paris%20001.jpg",
   卤煮: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
-  成都火锅: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
-  担担面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  成都火锅: "https://commons.wikimedia.org/wiki/Special:FilePath/Hotpot.jpg",
+  担担面: "https://commons.wikimedia.org/wiki/Special:FilePath/Dandan%20Noodles.jpg",
   甜水面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80"
 };
 
@@ -977,10 +988,10 @@ function normalizeCityInput(name) {
 function findImageByKeyword(name, dict = {}) {
   const text = String(name || "");
   if (!text) return "";
-  for (const [key, url] of Object.entries(dict)) {
-    if (text.includes(key)) return url;
-  }
-  return "";
+  const hits = Object.entries(dict)
+    .filter(([key]) => key && text.includes(key))
+    .sort((a, b) => b[0].length - a[0].length);
+  return hits[0]?.[1] || "";
 }
 
 function resolveRemoteImageByCity(city, fallback = "") {
@@ -997,7 +1008,7 @@ function normalizeSpotImage(image, city, spotName = "") {
   const src = String(image || "").trim();
   if (/source\.unsplash\.com/iu.test(src)) return byName;
   if (/^https?:\/\//u.test(src)) return byName || src;
-  return byName;
+  return byName || src || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
 }
 
 function normalizeFoodImage(image, city, foodName = "") {
