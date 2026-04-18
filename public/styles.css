@@ -364,6 +364,17 @@ body {
   gap: 8px;
 }
 
+.input-action-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.input-action-row .btn {
+  white-space: nowrap;
+}
+
 label {
   display: grid;
   gap: 6px;
@@ -513,6 +524,18 @@ label.check input {
 
 .food-item:last-child {
   border-bottom: none;
+}
+
+.food-thumb {
+  width: 56px;
+  height: 56px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+}
+
+.inline-ticket-detail {
+  margin-top: 8px;
 }
 
 .hotel-card {

@@ -319,7 +319,6 @@ const CITY_SUGGESTIONS = [
   "甘肃省", "青海省", "台湾省", "内蒙古自治区", "广西壮族自治区", "西藏自治区", "宁夏回族自治区", "新疆维吾尔自治区"
 ];
 
-const HOT_DEPARTURE_CITIES = ["北京", "上海", "广州", "深圳", "杭州", "成都", "武汉", "西安"];
 const HOT_DESTINATION_CITIES = ["杭州", "苏州", "青岛", "厦门", "成都", "重庆", "大理", "三亚", "哈尔滨", "西安"];
 
 function formatDateISO(dateObj) {
@@ -351,11 +350,7 @@ function renderCityDataList() {
 }
 
 function renderHotCityBars() {
-  const depBox = $("hotDepartureCityBar");
   const destBox = $("hotDestinationCityBar");
-  if (depBox) {
-    depBox.innerHTML = HOT_DEPARTURE_CITIES.map((c) => `<button class="suggest-chip" type="button" data-hot-departure="${escapeHtml(c)}">${escapeHtml(c)}</button>`).join("");
-  }
   if (destBox) {
     destBox.innerHTML = HOT_DESTINATION_CITIES.map((c) => {
       const exists = state.destinationCities.some((x) => normalizeRegionText(x) === normalizeRegionText(c));
@@ -459,6 +454,13 @@ function ensureStep1AssistUI() {
   markStep1Saved();
 }
 
+function setLocationHint(message, isError = false) {
+  const hint = $("locationHint");
+  if (!hint) return;
+  hint.textContent = message || "";
+  hint.style.color = isError ? "#cb3740" : "";
+}
+
 function canonicalCityInput(raw) {
   const txt = String(raw || "").trim();
   if (!txt) return "";
@@ -532,17 +534,12 @@ function selectedHotelCost() {
   return Object.values(state.selectedHotels).reduce((acc, h) => acc + h.price * days, 0);
 }
 
-function computeSmartJudge(cities, distanceMatrix, selectedAttractions) {
+function computeSmartJudge(cities, distanceMatrix, _selectedAttractions) {
   const destinationCities = cities.slice(1);
-  const attractionCounts = destinationCities.map((city) => (selectedAttractions[city] || new Set()).size);
-  const totalSelected = attractionCounts.reduce((a, b) => a + b, 0);
   const maxDistance = Math.max(0, ...Object.values(distanceMatrix));
   const longHops = Object.values(distanceMatrix).filter((d) => d > 650).length;
 
-  const dispersedSpots =
-    attractionCounts.some((x) => x >= 4) ||
-    (totalSelected >= 6 && destinationCities.length >= 2) ||
-    maxDistance > 700;
+  const dispersedSpots = maxDistance > 700 || destinationCities.length >= 3;
   const publicTransitSparse =
     longHops >= 1 ||
     destinationCities.some((c) => isProvinceLike(c)) ||
@@ -550,10 +547,9 @@ function computeSmartJudge(cities, distanceMatrix, selectedAttractions) {
   const lastMileHours = dispersedSpots ? 1.3 : publicTransitSparse ? 1.1 : 0.7;
 
   const reasons = [];
-  if (dispersedSpots) reasons.push("已选景点分布较散，景点间接驳成本较高");
+  if (dispersedSpots) reasons.push("跨城段较多或距离较远，城市内外接驳成本会升高");
   if (publicTransitSparse) reasons.push("跨城或末端接驳较长，公共交通班次可能不够灵活");
   if (lastMileHours > 1) reasons.push("末端接驳预计超过 1 小时");
-  if (totalSelected === 0) reasons.push("尚未选择景点，当前为基础判断");
   return { dispersedSpots, publicTransitSparse, lastMileHours, reasons };
 }
 
@@ -596,25 +592,7 @@ function readPayload() {
 }
 
 function renderSmartJudgeInfo() {
-  const j = state.smartJudge;
-  const prefTextMap = {
-    balanced: "均衡优先",
-    saveMoney: "省钱优先",
-    saveTime: "省时优先",
-    comfort: "舒适优先"
-  };
-  const pref = $("travelPreference")?.value || "balanced";
-  $("smartJudgeInfo").innerHTML = `
-    <article class="card">
-      <h3>系统自动判断</h3>
-      <p>景点分散：<strong>${j.dispersedSpots ? "是" : "否"}</strong> ｜ 公共交通班次紧张：<strong>${j.publicTransitSparse ? "是" : "否"}</strong></p>
-      <p>末端接驳预估：${j.lastMileHours.toFixed(1)} 小时</p>
-      <p>当前偏好：<strong>${escapeHtml(prefTextMap[pref] || "均衡优先")}</strong> ｜ 返程规划：<strong>${
-    $("returnToDeparture")?.checked ? "已开启" : "未开启"
-  }</strong></p>
-      <p class="muted">${j.reasons.map(escapeHtml).join("；")}</p>
-    </article>
-  `;
+  return;
 }
 
 function filterFeedBySearch(items, keyword) {
@@ -888,11 +866,18 @@ function segmentDetailHTML(seg, key, mode) {
 function renderModeDetails(mode) {
   const info = (state.transportData?.modeSummary || []).find((x) => x.mode === mode);
   if (!info) return;
+  const routeCities = state.transportData?.routeCities || [];
+  const departure = routeCities[0] || "";
+  const destinations = routeCities.slice(1);
+  const routeLabel = destinations.length
+    ? `${escapeHtml(departure)} → ${destinations.map((x) => escapeHtml(x)).join(" → ")}`
+    : escapeHtml(departure);
   const top = state.transportData?.topRecommendations || [];
   const liveRoad = state.transportData?.liveRoadSummary;
   $("recommendedModeCard").innerHTML = `
     <article class="card">
       <h3>系统推荐主交通：${escapeHtml(info.label)}</h3>
+      <p class="muted">路线依据：${routeLabel}</p>
       <p class="muted">${escapeHtml(state.transportData.recommendedReason || "")}</p>
       <p class="muted">推荐维度：${escapeHtml(state.transportData.preferenceLabel || "均衡优先")}</p>
       <p>预计人均成本：${info.costPerPerson} 元</p>
@@ -950,7 +935,7 @@ function renderSegmentTransport() {
       const key = segKey(seg);
       const selected = state.selectedSegmentModes[key] || "rail";
       const recommendedMode = segmentRecommendedMode(seg);
-      const detailMode = state.segmentDetailModeByKey[key] || "";
+      const detailMode = state.segmentDetailModeByKey[key] || selected;
       const cards = [
         {
           mode: "rail",
@@ -1004,12 +989,12 @@ function renderSegmentTransport() {
                   <button class="btn ghost" data-segment-detail="${key}" data-mode="${m.mode}">查看详情</button>
                   <button class="btn" data-segment-select="${key}" data-mode="${m.mode}">选择此方式</button>
                 </div>
+                <div class="inline-ticket-detail">${detailMode === m.mode ? segmentDetailHTML(seg, key, m.mode) : ""}</div>
               </article>
             `
               )
               .join("")}
           </div>
-          <div id="segment-detail-${escapeHtml(key)}">${segmentDetailHTML(seg, key, detailMode)}</div>
         </article>
       `;
     })
@@ -1033,7 +1018,6 @@ function renderTicketDetailsForSegment(key, mode) {
 async function loadTransportStep() {
   const payload = readPayload();
   if (!payload.cities || payload.cities.length < 2) throw new Error("请至少填写 1 个目标城市。");
-  renderSmartJudgeInfo();
   const data = await api("/api/transport-options", { method: "POST", body: JSON.stringify(payload) });
   state.transportData = data;
   state.segmentDetailModeByKey = {};
@@ -1051,7 +1035,7 @@ function toSimpleSpot(name, city, kind) {
     bestHours: kind === "food" ? 1.5 : 2,
     traffic: "地铁/公交可达",
     budgetHint: kind === "food" ? "餐饮消费约 60-180 元" : "游玩消费约 0-120 元",
-    image: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1f?auto=format&fit=crop&w=900&q=80",
+    image: `https://source.unsplash.com/900x600/?${encodeURIComponent(`${city} ${name}`)}`,
     videos: [
       {
         platform: "抖音",
@@ -1168,11 +1152,7 @@ function inferSpotIntent(text, city) {
     : hasPhoto
     ? "建议预算 40-160 元/人"
     : "建议预算 30-140 元/人";
-  const image = hasNature
-    ? "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80"
-    : hasAncient
-    ? "https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80"
-    : "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80";
+  const image = `https://source.unsplash.com/900x600/?${encodeURIComponent(`${city} ${name}`)}`;
 
   return {
     name,
@@ -1230,9 +1210,12 @@ async function loadFoodStep() {
         ${(data.items || [])
           .map((f) => {
             const link = `https://www.douyin.com/search/${encodeURIComponent(city + " " + f.name)}`;
+            const img = f.image || `https://source.unsplash.com/640x420/?${encodeURIComponent(`${city} ${f.name} food`)}`;
             return `<label class="food-item"><input type="checkbox" data-food-city="${escapeHtml(city)}" data-food-name="${escapeHtml(f.name)}" ${
               state.selectedFoods[city].has(f.name) ? "checked" : ""
-            } />${escapeHtml(f.name)} ｜ ${f.price} 元/人 <a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">看视频</a></label>`;
+            } /><img class="food-thumb" src="${escapeHtml(img)}" alt="${escapeHtml(f.name)}" loading="lazy" decoding="async" referrerpolicy="no-referrer" />${escapeHtml(f.name)} ｜ ${
+              f.price
+            } 元/人 <a href="${escapeHtml(link)}" target="_blank" rel="noreferrer">看视频</a></label>`;
           })
           .join("")}
       </article>
@@ -1252,17 +1235,24 @@ async function loadHotelStep() {
     const data = await api(`/api/hotels?city=${encodeURIComponent(city)}`);
     state.hotelCatalog[city] = data.items || [];
     if (!state.selectedHotels[city] && data.items?.length) state.selectedHotels[city] = data.items[0];
+    const selectedSpots = [...(state.selectedAttractions[city] || new Set())];
     $("hotelSelector").innerHTML += `
       <article class="card">
         <h3>${escapeHtml(city)}</h3>
         ${(data.items || [])
           .map((h) => {
             const active = state.selectedHotels[city]?.name === h.name;
+            const reason = h.reason || (selectedSpots.length ? `靠近已选景点：${selectedSpots.slice(0, 2).join("、")}` : "交通换乘方便，适合首次到访");
+            const videoLink =
+              h.videoUrl ||
+              `https://www.douyin.com/search/${encodeURIComponent(`${city} ${h.name} 酒店`)}`;
             return `<button class="hotel-card ${active ? "selected" : ""}" data-hotel-city="${escapeHtml(city)}" data-hotel-name="${escapeHtml(
               h.name
             )}" data-hotel-price="${h.price}"><strong>${escapeHtml(h.name)}</strong> ｜ ${h.price} 元/晚 <span class="tag">${(h.tags || [])
               .map(escapeHtml)
-              .join(" ")}</span></button>`;
+              .join(" ")}</span><p class="muted">${escapeHtml(reason)}</p><div class="inline-links"><a href="${escapeHtml(
+              videoLink
+            )}" target="_blank" rel="noreferrer">查看短视频介绍</a></div></button>`;
           })
           .join("")}
       </article>
@@ -1353,46 +1343,49 @@ function renderWeatherPanel() {
 }
 
 function renderPlanCompareTable(result) {
-  const plans = result.plans || [];
+  const selectedMode = result?.summary?.selectedMode;
+  const plans = (result.plans || []).filter((p) => p.mode !== selectedMode);
+  if (!plans.length) return "";
   return plans
-    .map((p) => {
+    .map((p, idx) => {
       const costRows = Object.entries(p.details?.items || {}).filter(([, amount]) => Number(amount) > 0);
       const timeRows = Object.entries(p.details?.time || {}).filter(([, hours]) => Number(hours) > 0);
       return `
       <article class="card">
-        <h3>${escapeHtml(p.label)}</h3>
-        <p>总费用 ${p.totalCost} 元 ｜ 紧凑 ${p.totalHoursTight}h ｜ 宽松 ${p.totalHoursRelaxed}h</p>
-        <p class="muted">自由度 ${p.freedomScore} ｜ 便捷度 ${p.convenienceScore}</p>
-        <div class="cost-line"><strong>开销明细</strong><span></span></div>
-        ${
-          costRows.length
-            ? costRows
-                .map(
-                  ([key, amount]) => `
-              <div class="cost-line">
-                <span>${escapeHtml(labelCostKey(key))}</span>
-                <strong>${Number(amount).toFixed(0)} 元</strong>
-              </div>
-            `
-                )
-                .join("")
-            : '<p class="empty-state">该方案暂无额外开销。</p>'
-        }
-        <div class="cost-line"><strong>时间明细</strong><span></span></div>
-        ${
-          timeRows.length
-            ? timeRows
-                .map(
-                  ([key, hours]) => `
-              <div class="cost-line">
-                <span>${escapeHtml(labelTimeKey(key))}</span>
-                <strong>${Number(hours).toFixed(1)} 小时</strong>
-              </div>
-            `
-                )
-                .join("")
-            : '<p class="empty-state">该方案暂无时间分项。</p>'
-        }
+        <details ${idx === 0 ? "" : ""}>
+          <summary><strong>${escapeHtml(p.label)}</strong> ｜ ${p.totalCost} 元 ｜ 紧凑 ${p.totalHoursTight}h</summary>
+          <p class="muted">自由度 ${p.freedomScore} ｜ 便捷度 ${p.convenienceScore}</p>
+          <div class="cost-line"><strong>开销明细</strong><span></span></div>
+          ${
+            costRows.length
+              ? costRows
+                  .map(
+                    ([key, amount]) => `
+                <div class="cost-line">
+                  <span>${escapeHtml(labelCostKey(key))}</span>
+                  <strong>${Number(amount).toFixed(0)} 元</strong>
+                </div>
+              `
+                  )
+                  .join("")
+              : '<p class="empty-state">该方案暂无额外开销。</p>'
+          }
+          <div class="cost-line"><strong>时间明细</strong><span></span></div>
+          ${
+            timeRows.length
+              ? timeRows
+                  .map(
+                    ([key, hours]) => `
+                <div class="cost-line">
+                  <span>${escapeHtml(labelTimeKey(key))}</span>
+                  <strong>${Number(hours).toFixed(1)} 小时</strong>
+                </div>
+              `
+                  )
+                  .join("")
+              : '<p class="empty-state">该方案暂无时间分项。</p>'
+          }
+        </details>
       </article>
     `;
     })
@@ -1767,13 +1760,6 @@ function bindPlanActions() {
     renderCityInputSuggestList(v);
   });
 
-  $("hotDepartureCityBar")?.addEventListener("click", (event) => {
-    const btn = event.target.closest("[data-hot-departure]");
-    if (!btn) return;
-    $("departureCity").value = btn.dataset.hotDeparture || "";
-    markStep1DirtyIfNeeded();
-  });
-
   $("hotDestinationCityBar")?.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-hot-destination]");
     if (!btn) return;
@@ -1785,8 +1771,9 @@ function bindPlanActions() {
   });
 
   $("useCurrentLocationBtn")?.addEventListener("click", () => {
+    setLocationHint("正在定位，请稍候…");
     if (!navigator.geolocation) {
-      window.alert("当前设备不支持定位，请手动输入出发地。");
+      setLocationHint("当前设备不支持定位，请手动输入出发地。", true);
       return;
     }
     navigator.geolocation.getCurrentPosition(
@@ -1799,18 +1786,20 @@ function bindPlanActions() {
           const city = addr.city || addr.town || addr.county || addr.state || "";
           if (city) {
             $("departureCity").value = city;
+            setLocationHint(`已定位到：${city}`);
             markStep1DirtyIfNeeded();
           } else {
-            window.alert("已获取定位，但未识别到城市名称，请手动确认。");
+            setLocationHint("已获取定位，但未识别到城市名称，请手动确认。", true);
           }
         } catch (_err) {
-          window.alert("定位解析失败，请手动输入出发地。");
+          setLocationHint("定位解析失败。请确认浏览器能访问定位服务，或手动输入出发地。", true);
         }
       },
-      () => {
-        window.alert("定位失败，请检查定位权限后重试。");
+      (err) => {
+        const msg = err?.code === 1 ? "定位权限被拒绝，请在浏览器设置中允许定位后重试。" : "定位失败，请检查网络与定位权限后重试。";
+        setLocationHint(msg, true);
       },
-      { enableHighAccuracy: false, timeout: 6000, maximumAge: 60000 }
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 60000 }
     );
   });
 
@@ -1878,10 +1867,7 @@ function bindPlanSelections() {
     if (keyDetail && mode) return renderTicketDetailsForSegment(keyDetail, mode);
     if (keySelect && mode) {
       state.selectedSegmentModes[keySelect] = mode;
-      const modes = Object.values(state.selectedSegmentModes);
-      state.selectedMainMode = modes.includes("air") ? "air" : modes[0] || "rail";
       state.segmentDetailModeByKey[keySelect] = mode;
-      renderModeDetails(state.selectedMainMode);
       renderSegmentTransport();
     }
   });

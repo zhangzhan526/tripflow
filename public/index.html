@@ -91,7 +91,13 @@
             <h3 class="step-title">步骤 1/5 · 基本信息</h3>
             <p class="muted">目标城市改为列表输入，可增删；并自动推荐关联城市。</p>
             <div class="form-grid">
-              <label>出发地（城市/省份）<input id="departureCity" list="cityDataList" placeholder="例如：上海 或 浙江省" /></label>
+              <label>出发地（城市/省份）
+                <div class="input-action-row">
+                  <input id="departureCity" list="cityDataList" placeholder="例如：上海 或 浙江省" />
+                  <button id="useCurrentLocationBtn" class="btn ghost" type="button">使用当前位置</button>
+                </div>
+                <span id="locationHint" class="muted"></span>
+              </label>
               <label>出发日期<input id="startDate" type="date" /></label>
               <label>结束日期<input id="endDate" type="date" /></label>
               <label>偏好出发时间<input id="preferredDepartureTime" type="time" value="09:00" /></label>
@@ -106,15 +112,10 @@
                 </select>
               </label>
             </div>
-            <div class="row wrap">
-              <button id="useCurrentLocationBtn" class="btn ghost" type="button">使用当前位置</button>
-              <span id="dateValidationHint" class="muted"></span>
-            </div>
+            <div class="row wrap"><span id="dateValidationHint" class="muted"></span></div>
 
             <article class="card">
-              <h3>热门城市快捷填入</h3>
-              <div id="hotDepartureCityBar" class="row wrap"></div>
-              <p class="muted">点击上方城市可快速填入出发地</p>
+              <h3>目标城市快捷填入</h3>
               <div id="hotDestinationCityBar" class="row wrap"></div>
               <p class="muted">点击上方城市可快速加入目标城市</p>
             </article>
@@ -146,7 +147,6 @@
         </section>
 
         <section id="route-plan-step-2" class="route-view">
-          <div id="smartJudgeInfo"></div>
           <div id="recommendedModeCard"></div>
           <div id="segmentSelectionSummary"></div>
           <article id="rentalSuggestion" class="card"></article>

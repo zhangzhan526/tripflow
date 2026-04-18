@@ -524,64 +524,144 @@ const cityAttractions = {
 
 const cityHotels = {
   杭州市: [
-    { name: "西湖美居酒店", price: 320, tags: ["近西湖", "含早"] },
-    { name: "如家精选", price: 220, tags: ["性价比", "地铁口"] }
+    {
+      name: "西湖美居酒店",
+      price: 320,
+      tags: ["近西湖", "含早"],
+      reason: "靠近西湖与地铁，方便西湖-灵隐寺联动。",
+      videoUrl: "https://www.douyin.com/search/%E6%9D%AD%E5%B7%9E%20%E8%A5%BF%E6%B9%96%E7%BE%8E%E5%B1%85%E9%85%92%E5%BA%97"
+    },
+    {
+      name: "如家精选",
+      price: 220,
+      tags: ["性价比", "地铁口"],
+      reason: "预算友好，通勤效率高，适合学生模式。",
+      videoUrl: "https://www.douyin.com/search/%E6%9D%AD%E5%B7%9E%20%E5%A6%82%E5%AE%B6%E7%B2%BE%E9%80%89"
+    }
   ],
   大理市: [
-    { name: "洱海轻奢民宿", price: 360, tags: ["海景", "停车方便"] },
-    { name: "古城舒适酒店", price: 240, tags: ["近古城", "安静"] }
+    {
+      name: "洱海轻奢民宿",
+      price: 360,
+      tags: ["海景", "停车方便"],
+      reason: "靠近洱海环线，适合自驾/租车中转。",
+      videoUrl: "https://www.douyin.com/search/%E5%A4%A7%E7%90%86%20%E6%B4%B1%E6%B5%B7%20%E6%B0%91%E5%AE%BF"
+    },
+    {
+      name: "古城舒适酒店",
+      price: 240,
+      tags: ["近古城", "安静"],
+      reason: "步行可达古城夜游区，晚上体验更好。",
+      videoUrl: "https://www.douyin.com/search/%E5%A4%A7%E7%90%86%20%E5%8F%A4%E5%9F%8E%20%E9%85%92%E5%BA%97"
+    }
   ],
   青岛市: [
-    { name: "海景假日酒店", price: 380, tags: ["海景", "近商圈"] },
-    { name: "地铁口青年酒店", price: 230, tags: ["交通便利", "经济型"] }
+    {
+      name: "海景假日酒店",
+      price: 380,
+      tags: ["海景", "近商圈"],
+      reason: "靠近海岸线与夜景打卡点，适合情侣或朋友出游。",
+      videoUrl: "https://www.douyin.com/search/%E9%9D%92%E5%B2%9B%20%E6%B5%B7%E6%99%AF%20%E9%85%92%E5%BA%97"
+    },
+    {
+      name: "地铁口青年酒店",
+      price: 230,
+      tags: ["交通便利", "经济型"],
+      reason: "去八大关、栈桥通勤成本低，适合省钱优先。",
+      videoUrl: "https://www.douyin.com/search/%E9%9D%92%E5%B2%9B%20%E9%9D%92%E5%B9%B4%20%E9%85%92%E5%BA%97"
+    }
   ],
   哈尔滨市: [
-    { name: "中央大街精选", price: 340, tags: ["近景点", "暖气稳定"] },
-    { name: "高性价比快捷", price: 210, tags: ["经济", "地铁旁"] }
+    {
+      name: "中央大街精选",
+      price: 340,
+      tags: ["近景点", "暖气稳定"],
+      reason: "冬季出行保暖和步行可达性更稳定。",
+      videoUrl: "https://www.douyin.com/search/%E5%93%88%E5%B0%94%E6%BB%A8%20%E4%B8%AD%E5%A4%AE%E5%A4%A7%E8%A1%97%20%E9%85%92%E5%BA%97"
+    },
+    {
+      name: "高性价比快捷",
+      price: 210,
+      tags: ["经济", "地铁旁"],
+      reason: "预算低、地铁接驳便捷，适合多人出行。",
+      videoUrl: "https://www.douyin.com/search/%E5%93%88%E5%B0%94%E6%BB%A8%20%E5%BF%AB%E6%8D%B7%E9%85%92%E5%BA%97"
+    }
   ],
   北京市: [
-    { name: "前门精选酒店", price: 380, tags: ["地铁近", "景点密集"] },
-    { name: "青年旅舍双床房", price: 240, tags: ["经济型", "交通方便"] }
+    {
+      name: "前门精选酒店",
+      price: 380,
+      tags: ["地铁近", "景点密集"],
+      reason: "前门-故宫中轴线串联效率高，节省通勤。",
+      videoUrl: "https://www.douyin.com/search/%E5%8C%97%E4%BA%AC%20%E5%89%8D%E9%97%A8%20%E9%85%92%E5%BA%97"
+    },
+    {
+      name: "青年旅舍双床房",
+      price: 240,
+      tags: ["经济型", "交通方便"],
+      reason: "多人拼房成本低，适合学生模式。",
+      videoUrl: "https://www.douyin.com/search/%E5%8C%97%E4%BA%AC%20%E9%9D%92%E5%B9%B4%E6%97%85%E8%88%8D"
+    }
   ],
   成都市: [
-    { name: "太古里轻奢酒店", price: 350, tags: ["商圈中心", "夜游方便"] },
-    { name: "宽窄巷子舒适酒店", price: 260, tags: ["性价比", "地铁口"] }
+    {
+      name: "太古里轻奢酒店",
+      price: 350,
+      tags: ["商圈中心", "夜游方便"],
+      reason: "夜游+美食路线集中，适合第一次来成都。",
+      videoUrl: "https://www.douyin.com/search/%E6%88%90%E9%83%BD%20%E5%A4%AA%E5%8F%A4%E9%87%8C%20%E9%85%92%E5%BA%97"
+    },
+    {
+      name: "宽窄巷子舒适酒店",
+      price: 260,
+      tags: ["性价比", "地铁口"],
+      reason: "宽窄巷子步行可达，交通和预算平衡。",
+      videoUrl: "https://www.douyin.com/search/%E6%88%90%E9%83%BD%20%E5%AE%BD%E7%AA%84%E5%B7%B7%E5%AD%90%20%E9%85%92%E5%BA%97"
+    }
   ],
-  default: [{ name: "舒适型酒店", price: 220, tags: ["干净卫生"] }]
+  default: [
+    {
+      name: "舒适型酒店",
+      price: 220,
+      tags: ["干净卫生"],
+      reason: "靠近城市核心交通节点，通用性较强。",
+      videoUrl: "https://www.douyin.com/search/%E9%85%92%E5%BA%97%20%E5%87%BA%E8%A1%8C"
+    }
+  ]
 };
 
 const cityFoods = {
   杭州市: [
-    { name: "西湖醋鱼", price: 88 },
-    { name: "龙井虾仁", price: 68 },
-    { name: "片儿川", price: 25 }
+    { name: "西湖醋鱼", price: 88, image: "https://source.unsplash.com/640x420/?hangzhou,food,fish" },
+    { name: "龙井虾仁", price: 68, image: "https://source.unsplash.com/640x420/?shrimp,chinese,food" },
+    { name: "片儿川", price: 25, image: "https://source.unsplash.com/640x420/?noodle,soup,chinese" }
   ],
   大理市: [
-    { name: "乳扇", price: 25 },
-    { name: "饵块", price: 20 },
-    { name: "酸辣鱼", price: 78 }
+    { name: "乳扇", price: 25, image: "https://source.unsplash.com/640x420/?yunnan,snack,food" },
+    { name: "饵块", price: 20, image: "https://source.unsplash.com/640x420/?rice,cake,food" },
+    { name: "酸辣鱼", price: 78, image: "https://source.unsplash.com/640x420/?fish,soup,food" }
   ],
   青岛市: [
-    { name: "海鲜锅贴", price: 48 },
-    { name: "辣炒蛤蜊", price: 58 },
-    { name: "青岛啤酒套餐", price: 68 }
+    { name: "海鲜锅贴", price: 48, image: "https://source.unsplash.com/640x420/?dumpling,seafood" },
+    { name: "辣炒蛤蜊", price: 58, image: "https://source.unsplash.com/640x420/?clam,seafood,food" },
+    { name: "青岛啤酒套餐", price: 68, image: "https://source.unsplash.com/640x420/?beer,food" }
   ],
   哈尔滨市: [
-    { name: "红肠拼盘", price: 55 },
-    { name: "锅包肉", price: 68 },
-    { name: "马迭尔冰棍", price: 8 }
+    { name: "红肠拼盘", price: 55, image: "https://source.unsplash.com/640x420/?sausage,platter" },
+    { name: "锅包肉", price: 68, image: "https://source.unsplash.com/640x420/?fried,pork,chinese" },
+    { name: "马迭尔冰棍", price: 8, image: "https://source.unsplash.com/640x420/?ice-cream,bar" }
   ],
   北京市: [
-    { name: "北京烤鸭", price: 128 },
-    { name: "炸酱面", price: 28 },
-    { name: "卤煮", price: 35 }
+    { name: "北京烤鸭", price: 128, image: "https://source.unsplash.com/640x420/?peking,duck" },
+    { name: "炸酱面", price: 28, image: "https://source.unsplash.com/640x420/?noodle,chinese,food" },
+    { name: "卤煮", price: 35, image: "https://source.unsplash.com/640x420/?stew,chinese,food" }
   ],
   成都市: [
-    { name: "成都火锅", price: 128 },
-    { name: "担担面", price: 22 },
-    { name: "甜水面", price: 18 }
+    { name: "成都火锅", price: 128, image: "https://source.unsplash.com/640x420/?hotpot,chinese" },
+    { name: "担担面", price: 22, image: "https://source.unsplash.com/640x420/?spicy,noodle" },
+    { name: "甜水面", price: 18, image: "https://source.unsplash.com/640x420/?noodle,bowl" }
   ],
-  default: [{ name: "当地特色小吃", price: 30 }]
+  default: [{ name: "当地特色小吃", price: 30, image: "https://source.unsplash.com/640x420/?street-food,chinese" }]
 };
 
 const aliasMap = new Map(
@@ -936,6 +1016,7 @@ function buildTrainOptions(distanceKm, baseHour, segIndex) {
       price,
       remain: Math.max(0, 30 - i * 2),
       source: "estimated",
+      realtime: false,
       priceBreakdown: {
         baseFare,
         seatServiceFee,
@@ -964,6 +1045,7 @@ function buildFlightOptions(distanceKm, baseHour, segIndex) {
       remain: Math.max(0, 18 - i),
       baggage: "20kg",
       source: "estimated",
+      realtime: false,
       priceBreakdown: {
         baseFare,
         airportTax,
@@ -1069,9 +1151,10 @@ function getTransportOptions(payload) {
     }
   ];
 
-  const ranked = rankModeRecommendations(modeSummary, preference);
+  const crossCityCandidates = modeSummary.filter((x) => x.mode !== "rentalCar");
+  const ranked = rankModeRecommendations(crossCityCandidates, preference);
   const recommendedMainMode = ranked.ranked[0]?.mode || (isLongCrossCity ? "air" : "rail");
-  const recommendedReason = `基于${ranked.preferenceLabel}计算，当前推荐 ${ranked.ranked[0]?.label || "高铁"}。`;
+  const recommendedReason = `基于${ranked.preferenceLabel}计算，当前推荐 ${ranked.ranked[0]?.label || "高铁"}。租车中转仅用于城市内接驳。`;
 
   const rentalCityShuttleSuggestion = hasSparseTransit
     ? "建议在目标城市内使用租车中转多个景点，不建议作为跨城主交通。"
@@ -1090,7 +1173,7 @@ function getTransportOptions(payload) {
       costPerPerson: x.costPerPerson
     })),
     rentalCityShuttleSuggestion,
-    modeSummary: ranked.ranked,
+    modeSummary: [...ranked.ranked, ...modeSummary.filter((x) => x.mode === "rentalCar")],
     segmentOptions: buildSegmentOptions(routeCities, payload.distanceMatrix || {}, payload.preferredDepartureTime || "09:00", payload),
     routeCities,
     includeReturnSegment: withReturn,
