@@ -35,6 +35,28 @@ function notFound(res) {
   sendJson(res, 404, { error: "Not Found" });
 }
 
+function sendRedirect(res, location, status = 302) {
+  res.writeHead(status, { Location: location });
+  res.end();
+}
+
+const OUTBOUND_ALLOW_HOSTS = ["douyin.com", "www.douyin.com", "xiaohongshu.com", "www.xiaohongshu.com", "xhslink.com", "www.xhslink.com"];
+
+function normalizeOutboundTarget(raw) {
+  const txt = String(raw || "").trim();
+  if (!txt) return "";
+  try {
+    const u = new URL(txt);
+    if (!/^https?:$/u.test(u.protocol)) return "";
+    const host = u.hostname.toLowerCase();
+    const allow = OUTBOUND_ALLOW_HOSTS.some((h) => host === h || host.endsWith(`.${h}`));
+    if (!allow) return "";
+    return u.toString();
+  } catch (_err) {
+    return "";
+  }
+}
+
 function parseBody(req) {
   return new Promise((resolve, reject) => {
     const chunks = [];
@@ -244,6 +266,12 @@ const routes = {
     const row = readOfflineCache(key);
     if (!row) return notFound(res);
     sendJson(res, 200, row);
+  }),
+
+  "GET /go": withErrorGuard(async (_req, res, urlObj) => {
+    const target = normalizeOutboundTarget(urlObj.searchParams.get("target"));
+    if (!target) throw new Error("无效跳转地址");
+    sendRedirect(res, target, 302);
   })
 };
 

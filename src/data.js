@@ -193,6 +193,30 @@ const CITY_IMAGE_MAP = {
   长沙市: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=80"
 };
 
+const CITY_IMAGE_EXTRA_MAP = {
+  南京市: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=1200&q=80",
+  苏州市: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1200&q=80",
+  武汉市: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
+  天津市: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=80",
+  郑州市: "https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=1200&q=80",
+  济南市: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=1200&q=80",
+  宁波市: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80",
+  福州市: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1200&q=80",
+  沈阳市: "https://images.unsplash.com/photo-1483683804023-6ccdb62f86ef?auto=format&fit=crop&w=1200&q=80",
+  长春市: "https://images.unsplash.com/photo-1455156218388-5e61b526818b?auto=format&fit=crop&w=1200&q=80",
+  无锡市: "https://images.unsplash.com/photo-1526481280695-3c4698f6638f?auto=format&fit=crop&w=1200&q=80",
+  合肥市: "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1200&q=80",
+  南昌市: "https://images.unsplash.com/photo-1549692520-acc6669e2f0c?auto=format&fit=crop&w=1200&q=80",
+  桂林市: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1200&q=80",
+  三亚市: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80",
+  海口市: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=80",
+  珠海市: "https://images.unsplash.com/photo-1473116763249-2faaef81ccda?auto=format&fit=crop&w=1200&q=80",
+  佛山市: "https://images.unsplash.com/photo-1512058564366-c9e3e0464b5f?auto=format&fit=crop&w=1200&q=80",
+  东莞市: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=1200&q=80",
+  西宁市: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80",
+  拉萨市: "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1200&q=80"
+};
+
 const SPOT_IMAGE_BY_KEYWORD = {
   西湖: "https://images.unsplash.com/photo-1561016444-14f747499547?auto=format&fit=crop&w=900&q=80",
   灵隐寺: "https://images.unsplash.com/photo-1603491656337-3b4911479179?auto=format&fit=crop&w=900&q=80",
@@ -215,6 +239,33 @@ const SPOT_IMAGE_BY_KEYWORD = {
   锦里: "https://images.unsplash.com/photo-1600412384817-8e03beccfd91?auto=format&fit=crop&w=900&q=80"
 };
 
+const SPOT_IMAGE_EXTRA_BY_KEYWORD = {
+  夫子庙: "https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80",
+  中山陵: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=900&q=80",
+  拙政园: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
+  平江路: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+  黄鹤楼: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80",
+  东湖: "https://images.unsplash.com/photo-1437623889155-075d40e2e59f?auto=format&fit=crop&w=900&q=80",
+  天津之眼: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+  五大道: "https://images.unsplash.com/photo-1514924013411-cbf25faa35bb?auto=format&fit=crop&w=900&q=80",
+  鼓浪屿: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80",
+  南普陀寺: "https://images.unsplash.com/photo-1626834086793-27aa3ae59f68?auto=format&fit=crop&w=900&q=80",
+  洪崖洞: "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=900&q=80",
+  解放碑: "https://images.unsplash.com/photo-1542435503-956c469947f6?auto=format&fit=crop&w=900&q=80",
+  大雁塔: "https://images.unsplash.com/photo-1547981609-4b6bf67dbf57?auto=format&fit=crop&w=900&q=80",
+  回民街: "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=900&q=80",
+  漓江: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
+  象鼻山: "https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80",
+  岳麓山: "https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=900&q=80",
+  橘子洲: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
+  西塘: "https://images.unsplash.com/photo-1512058564366-c9e3e0464b5f?auto=format&fit=crop&w=900&q=80",
+  乌镇: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=80",
+  泰山: "https://images.unsplash.com/photo-1482192596544-9eb780fc7f66?auto=format&fit=crop&w=900&q=80",
+  千岛湖: "https://images.unsplash.com/photo-1437623889155-075d40e2e59f?auto=format&fit=crop&w=900&q=80",
+  亚龙湾: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=900&q=80",
+  天涯海角: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80"
+};
+
 const FOOD_IMAGE_BY_KEYWORD = {
   西湖醋鱼: "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=900&q=80",
   龙井虾仁: "https://images.unsplash.com/photo-1565299585323-38174c4a6471?auto=format&fit=crop&w=900&q=80",
@@ -235,6 +286,33 @@ const FOOD_IMAGE_BY_KEYWORD = {
   担担面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
   甜水面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80"
 };
+
+const FOOD_IMAGE_EXTRA_BY_KEYWORD = {
+  盐水鸭: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
+  鸭血粉丝汤: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  松鼠鳜鱼: "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=900&q=80",
+  苏式汤面: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80",
+  热干面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  豆皮: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80",
+  狗不理包子: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80",
+  煎饼果子: "https://images.unsplash.com/photo-1512058564366-c9e3e0464b5f?auto=format&fit=crop&w=900&q=80",
+  桂林米粉: "https://images.unsplash.com/photo-1555126634-323283e090fa?auto=format&fit=crop&w=900&q=80",
+  啤酒鱼: "https://images.unsplash.com/photo-1516684732162-798a0062be99?auto=format&fit=crop&w=900&q=80",
+  沙茶面: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=900&q=80",
+  海蛎煎: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80",
+  胡辣汤: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
+  肉夹馍: "https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80",
+  羊肉泡馍: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80",
+  椰子鸡: "https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=900&q=80",
+  清补凉: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?auto=format&fit=crop&w=900&q=80",
+  烧鹅: "https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?auto=format&fit=crop&w=900&q=80",
+  潮汕牛肉火锅: "https://images.unsplash.com/photo-1583032015879-e5022cb87c3b?auto=format&fit=crop&w=900&q=80",
+  生煎包: "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?auto=format&fit=crop&w=900&q=80"
+};
+
+const CITY_IMAGE_ALL = { ...CITY_IMAGE_MAP, ...CITY_IMAGE_EXTRA_MAP };
+const SPOT_IMAGE_ALL = { ...SPOT_IMAGE_BY_KEYWORD, ...SPOT_IMAGE_EXTRA_BY_KEYWORD };
+const FOOD_IMAGE_ALL = { ...FOOD_IMAGE_BY_KEYWORD, ...FOOD_IMAGE_EXTRA_BY_KEYWORD };
 
 const detailById = {
   "spot-hz-westlake": {
@@ -854,11 +932,11 @@ function findImageByKeyword(name, dict = {}) {
 
 function resolveRemoteImageByCity(city, fallback = "") {
   const normalized = canonicalizeCity(city);
-  return CITY_IMAGE_MAP[normalized] || fallback || DEFAULT_REMOTE_IMAGE;
+  return CITY_IMAGE_ALL[normalized] || fallback || DEFAULT_REMOTE_IMAGE;
 }
 
 function resolveSpotImageByName(name, city) {
-  return findImageByKeyword(name, SPOT_IMAGE_BY_KEYWORD) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
+  return findImageByKeyword(name, SPOT_IMAGE_ALL) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
 }
 
 function normalizeSpotImage(image, city, spotName = "") {
@@ -870,7 +948,7 @@ function normalizeSpotImage(image, city, spotName = "") {
 }
 
 function normalizeFoodImage(image, city, foodName = "") {
-  const byName = findImageByKeyword(foodName, FOOD_IMAGE_BY_KEYWORD) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
+  const byName = findImageByKeyword(foodName, FOOD_IMAGE_ALL) || resolveRemoteImageByCity(city, DEFAULT_REMOTE_IMAGE);
   const src = String(image || "").trim();
   if (/source\.unsplash\.com/iu.test(src)) return byName;
   if (/^https?:\/\//u.test(src)) return byName || src;
