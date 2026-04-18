@@ -104,14 +104,41 @@ function isStandaloneDisplayMode() {
   return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
 }
 
+function isIosDevice() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent || "");
+}
+
+function isAndroidDevice() {
+  return /android/i.test(window.navigator.userAgent || "");
+}
+
+function showInstallGuide() {
+  if (isStandaloneDisplayMode()) {
+    window.alert("应用已安装，可从桌面图标直接打开。");
+    return;
+  }
+
+  let message = "可通过浏览器菜单安装：Chrome/Edge 点击右上角菜单，选择“安装应用”或“添加到主屏幕”。";
+  if (isIosDevice()) {
+    message = "iPhone/iPad 安装：请用 Safari 打开本页，点击“分享”->“添加到主屏幕”。";
+  } else if (isAndroidDevice()) {
+    message = "Android 安装：点击浏览器右上角菜单，选择“安装应用”或“添加到主屏幕”。";
+  }
+  window.alert(message);
+}
+
 function updateInstallButtonVisibility() {
   const installBtn = $("installAppBtn");
   if (!installBtn) return;
-  installBtn.classList.toggle("hidden", !deferredInstallPrompt || isStandaloneDisplayMode());
+  installBtn.title = deferredInstallPrompt ? "安装应用" : "查看安装方式";
+  installBtn.setAttribute("aria-label", deferredInstallPrompt ? "安装应用" : "查看安装方式");
 }
 
 async function triggerInstallPrompt() {
-  if (!deferredInstallPrompt) return;
+  if (!deferredInstallPrompt) {
+    showInstallGuide();
+    return;
+  }
   deferredInstallPrompt.prompt();
   try {
     await deferredInstallPrompt.userChoice;
@@ -203,9 +230,11 @@ function pathForRoute(routeKey, payload = {}) {
 function setHeader(routeKey) {
   $("headerTitle").textContent = routeTitles[routeKey] || "发现";
   $("headerBackBtn").classList.toggle("hidden", routeKey === "/feed");
+  $("installAppBtn")?.classList.toggle("hidden", routeKey !== "/feed");
   const step3Fab = $("step3FloatingNextBtn");
   if (step3Fab) step3Fab.classList.toggle("hidden", routeKey !== "/plan/step-3");
   hideFeedFabOnDemand(routeKey !== "/feed");
+  updateInstallButtonVisibility();
 }
 
 function setTab(routeKey) {
