@@ -1,4 +1,4 @@
-const CACHE_NAME = "tripflow-pwa-beta-v11";
+const CACHE_NAME = "tripflow-pwa-beta-v12";
 const PRE_CACHE = [
   "/",
   "/feed",
@@ -79,13 +79,20 @@ self.addEventListener("fetch", (event) => {
   if (req.method !== "GET") return;
   const url = new URL(req.url);
   const isApi = url.pathname.startsWith("/api/");
+  const isCoreShell =
+    req.mode === "navigate" ||
+    url.pathname === "/" ||
+    url.pathname === "/index.html" ||
+    url.pathname === "/app.js" ||
+    url.pathname === "/styles.css" ||
+    url.pathname === "/manifest.webmanifest";
 
   if (isApi) {
     event.respondWith(networkFirst(req));
     return;
   }
 
-  if (req.mode === "navigate") {
+  if (isCoreShell) {
     event.respondWith(networkFirst(req, "/offline.html"));
     return;
   }

@@ -9,7 +9,7 @@
     <title>TripFlow · 青年旅行规划</title>
     <link rel="manifest" href="/manifest.webmanifest" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
-    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/styles.css?v=20260418a" />
   </head>
   <body>
     <main class="app">
@@ -133,7 +133,7 @@
 
             <div class="row wrap">
               <input id="destCityInput" list="cityDataList" placeholder="输入目标城市或省份，例如：杭州 / 云南省" />
-              <button id="addDestCityBtn" class="btn ghost">添加目标城市</button>
+              <button id="addDestCityBtn" class="btn ghost" type="button">添加目标城市</button>
             </div>
             <div id="cityInputSuggestList" class="row wrap"></div>
             <datalist id="cityDataList"></datalist>
@@ -141,7 +141,7 @@
             <div id="relatedCityBox" class="card"></div>
 
             <div class="row">
-              <button id="goStep2Btn" class="btn">下一步：交通方式</button>
+              <button id="goStep2Btn" class="btn" type="button">下一步：交通方式</button>
             </div>
           </article>
         </section>
@@ -152,9 +152,9 @@
           <article id="rentalSuggestion" class="card"></article>
           <div id="segmentTransportList"></div>
           <div class="row">
-            <button id="step2BackBtn" class="btn ghost">上一步</button>
-            <button id="goStep3Btn" class="btn">下一步：景点选择</button>
-            <button id="skipStep2Btn" class="btn ghost">跳过</button>
+            <button id="step2BackBtn" class="btn ghost" type="button">上一步</button>
+            <button id="goStep3Btn" class="btn" type="button">下一步：景点选择</button>
+            <button id="skipStep2Btn" class="btn ghost" type="button">跳过</button>
           </div>
         </section>
 
@@ -177,26 +177,26 @@
           <div id="attractionSelector"></div>
           <div id="shortVideoList"></div>
           <div class="row">
-            <button id="step3BackBtn" class="btn ghost">上一步</button>
-            <button id="goStep4Btn" class="btn">下一步：美食与餐饮</button>
+            <button id="step3BackBtn" class="btn ghost" type="button">上一步</button>
+            <button id="goStep4Btn" class="btn" type="button">下一步：美食与餐饮</button>
           </div>
         </section>
 
         <section id="route-plan-step-4" class="route-view">
           <div id="foodSelector"></div>
           <div class="row">
-            <button id="backToStep3Btn" class="btn ghost">上一步</button>
-            <button id="goStep5Btn" class="btn">下一步：预算结果</button>
+            <button id="backToStep3Btn" class="btn ghost" type="button">上一步</button>
+            <button id="goStep5Btn" class="btn" type="button">下一步：预算结果</button>
           </div>
         </section>
 
         <section id="route-plan-step-5" class="route-view">
           <div id="hotelSelector"></div>
           <div class="row wrap">
-            <button id="generateBtn" class="btn">生成方案</button>
-            <button id="saveHistoryBtn" class="btn ghost" disabled>保存历史</button>
-            <button id="shareBtn" class="btn ghost" disabled>分享链接</button>
-            <button id="exportBtn" class="btn ghost" disabled>导出文本</button>
+            <button id="generateBtn" class="btn" type="button">生成方案</button>
+            <button id="saveHistoryBtn" class="btn ghost" type="button" disabled>保存历史</button>
+            <button id="shareBtn" class="btn ghost" type="button" disabled>分享链接</button>
+            <button id="exportBtn" class="btn ghost" type="button" disabled>导出文本</button>
           </div>
           <div id="alertBox"></div>
           <div id="planSummary"></div>
@@ -226,6 +226,6 @@
       </nav>
     </main>
 
-    <script src="/app.js"></script>
+    <script src="/app.js?v=20260418a"></script>
   </body>
 </html>
