@@ -485,11 +485,33 @@ function removeDestinationCity(city) {
   state.destinationCities = state.destinationCities.filter((x) => normalizeRegionText(x) !== key);
 }
 
+function flushPendingDestinationInput() {
+  const input = $("destCityInput");
+  if (!input) return false;
+  const value = input.value.trim();
+  if (!value) return false;
+  const added = addDestinationCity(value);
+  input.value = "";
+  renderDestinationList();
+  renderRelatedCitySuggestions();
+  return added;
+}
+
 function parseCitiesFromInputs() {
   const departure = $("departureCity").value.trim();
   const fromSpot = state.selectedSpot?.city ? [state.selectedSpot.city] : [];
   const merged = state.destinationCities.length ? state.destinationCities : fromSpot;
   return { departure, destinations: uniq(merged) };
+}
+
+function validateStep1BeforeTransport() {
+  const { departure, destinations } = parseCitiesFromInputs();
+  if (!departure) return "请先填写出发地。";
+  if (!destinations.length) return "请至少添加 1 个目标城市。";
+  const depNorm = normalizeRegionText(departure);
+  const hasDiffDestination = destinations.some((city) => normalizeRegionText(city) !== depNorm);
+  if (!hasDiffDestination) return "目标城市不能与出发地完全相同，请添加其他城市。";
+  return "";
 }
 
 function buildRouteCities() {
@@ -1804,10 +1826,19 @@ function bindPlanActions() {
   });
 
   $("goStep2Btn").addEventListener("click", async () => {
-    syncStep1Dates("days");
-    markStep1Saved();
-    await loadTransportStep();
-    goto("/plan/step-2");
+    try {
+      flushPendingDestinationInput();
+      const step1Error = validateStep1BeforeTransport();
+      if (step1Error) throw new Error(step1Error);
+      syncStep1Dates("days");
+      await loadTransportStep();
+      markStep1Saved();
+      goto("/plan/step-2");
+    } catch (err) {
+      const msg = err?.message || "加载交通方式失败，请稍后重试。";
+      window.alert(msg);
+      console.error(err);
+    }
   });
   $("step2BackBtn").addEventListener("click", () => goto("/plan/step-1"));
   $("skipStep2Btn").addEventListener("click", () => goto("/plan/step-3"));
@@ -2008,6 +2039,22 @@ async function bootRoute() {
 
 function registerSw() {
   if (!("serviceWorker" in navigator)) return;
+  const host = String(location.hostname || "");
+  const isLocalhost = host === "localhost" || host === "127.0.0.1" || host === "::1";
+  if (isLocalhost) {
+    navigator.serviceWorker.getRegistrations().then((regs) => {
+      regs.forEach((reg) => reg.unregister());
+    });
+    if ("caches" in window) {
+      caches
+        .keys()
+        .then((keys) =>
+          Promise.all(keys.filter((k) => String(k).startsWith("tripflow-pwa-")).map((k) => caches.delete(k)))
+        )
+        .catch(() => {});
+    }
+    return;
+  }
   navigator.serviceWorker.register("/sw.js").catch(() => {});
 }
 
